@@ -29,3 +29,12 @@ return new class extends Migration
         Schema::dropIfExists('categories');
     }
 };
+
+// route
+// controller
+// view
+
+// migration
+// model
+// seeder(optional)
+// factory(optional)

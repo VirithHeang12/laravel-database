@@ -7,6 +7,14 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="{{ route('home') }}">About</a>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ route('home') }}">Home</a></li>
+                <li><a href="{{ route('categories.index') }}">Categories</a></li>
+                <li><a href="{{ route('products.index') }}">Products</a></li>
+            </ul>
+        </nav>
+    </header>
 </body>
 </html>

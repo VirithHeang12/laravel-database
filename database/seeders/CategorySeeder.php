@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use Database\Factories\CategoryFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,31 +14,6 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = [
-            [
-                'name'      => 'Electronics',
-                'description' => 'Electronic devices and accessories',
-            ],
-            [
-                'name'      => 'Clothing',
-                'description' => 'Clothing and accessories',
-            ],
-            [
-                'name'      => 'Books',
-                'description' => 'Books and other reading materials',
-            ],
-            [
-                'name'      => 'Furniture',
-                'description' => 'Furniture and home decor',
-            ],
-            [
-                'name'      => 'Appliances',
-                'description' => 'Home and kitchen appliances',
-            ],
-        ];
-
-        foreach ($categories as $category) {
-            Category::create($category);
-        }
+        CategoryFactory::new()->count(100)->create();
     }
 }
