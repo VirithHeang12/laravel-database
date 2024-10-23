@@ -10,8 +10,11 @@
     <h1>Users</h1>
     <ul>
         @foreach ($users as $user)
-            <li>{{ $user->name }}</li>
-        @endforeach
+                 <li>{{ $user->name}}</li>
+                <li>{{ $user->email}}</li>
+                <li>{{ $user->password}}</li>
+                <br>
+       @endforeach
     </ul>
 </body>
 </html>

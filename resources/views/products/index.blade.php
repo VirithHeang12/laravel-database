@@ -8,9 +8,9 @@
 </head>
 <body>
     @foreach ($products as $product)
-        <h1>{{ $product->name }}</hjson>
-        <p>{{ $product->description }}</p>
-        <p>{{ $product->price }}</p>
+        <h1>{{ $product->name }}</h1>
+        <p>Description: {{ $product->description }}</p>
+        <p>Price: ${{ $product->price }}</p>
     @endforeach
 </body>
 </html>
