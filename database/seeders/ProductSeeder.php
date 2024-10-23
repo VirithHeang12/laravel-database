@@ -2,18 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
-use Database\Factories\CategoryFactory;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CategorySeeder extends Seeder
+class ProductSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        CategoryFactory::new()->count(100)->create();
+        Product::factory()->count(10)->create(); // Create 10 products in the database.
     }
 }

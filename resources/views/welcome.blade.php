@@ -7,14 +7,14 @@
     <title>Welcome</title>
 </head>
 <body>
-    <h1>Welcome to Our Application</h1>
-    <nav>
-        <ul>
-            <li><a href="{{ route('home') }}">Home</a></li>
-            {{-- <li><a href="{{ route('about') }}">About</a></li> --}}
-            <li><a href="{{ route('users.index') }}">Users</a></li>
-            <li><a href="{{ route('products.index') }}">Products</a></li>
-        </ul>
-    </nav>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ route('home') }}">Home</a></li>
+                <li><a href="{{ route('categories.index') }}">Categories</a></li>
+                <li><a href="{{ route('products.index') }}">Products</a></li>
+            </ul>
+        </nav>
+    </header>
 </body>
 </html>
