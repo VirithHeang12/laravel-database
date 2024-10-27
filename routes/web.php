@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,7 @@ Route::resource('users', UserController::class);
 
 Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
+Route::resource('customers', CustomerController::class);
 Route::resource('doctors', DoctorController::class);
 
 
