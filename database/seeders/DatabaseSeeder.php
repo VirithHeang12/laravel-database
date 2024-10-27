@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Teacher;
 use App\Models\User;
@@ -30,7 +31,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // CategorySeeder::class,
             // ProductSeeder::class,
-            TeacherSeeder::class,
+            // TeacherSeeder::class,
+            CustomerSeeder::class,
         ]);
     }
 }
