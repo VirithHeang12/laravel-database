@@ -13,6 +13,7 @@
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li><a href="{{ route('categories.index') }}">Categories</a></li>
                 <li><a href="{{ route('products.index') }}">Products</a></li>
+                <li><a href="{{ route('doctors.index') }}">Doctors</a></li>
             </ul>
         </nav>
     </header>
