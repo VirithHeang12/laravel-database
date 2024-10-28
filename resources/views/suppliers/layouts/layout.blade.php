@@ -11,12 +11,13 @@
 </head>
 <body>
     <header>
+        <h2 style="color: grey;" class="ms-3">Supplier Page</h2>
         <nav>
             <ul>
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li><a href="{{ route('categories.index') }}">Categories</a></li>
                 <li><a href="{{ route('products.index') }}">Products</a></li>
-                <li><a href="{{ route('suppliers.index') }}">Suppliers</a></li>
+                {{-- <li><a href="{{ route('suppliers.index') }}">Suppliers</a></li> --}}
             </ul>
         </nav>
     </header>
@@ -24,7 +25,7 @@
         @yield('content')
     </main>
     <footer>
-        <p>&copy; 2020</p>
+        <p class="text-center p-2" style="background-color: #f7f7f7">&copy; 2020</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
