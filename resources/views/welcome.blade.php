@@ -17,6 +17,7 @@
                 <li><a href="{{ route('customers.index') }}">Customers</a></li>
                 <li><a href="{{ route('doctors.index') }}">Doctors</a></li>
                 <li><a href="{{ route('suppliers.index') }}">Suppliers</a></li>
+                <li><a href="{{ route('books.index') }}">Books</a></li>
             </ul>
         </nav>
     </header>

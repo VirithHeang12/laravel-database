@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\BookController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +23,7 @@ Route::resource('suppliers', SupplierController::class);
 
 Route::resource('customers', CustomerController::class);
 Route::resource('doctors', DoctorController::class);
+Route::resource('books', BookController::class);
 
 
 
