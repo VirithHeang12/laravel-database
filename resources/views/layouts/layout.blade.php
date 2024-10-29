@@ -29,6 +29,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('books.index') }}">Books</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('suppliers.index') }}">Suppliers</a>
+                    </li>
                 </ul>
             </div>
         </nav>
