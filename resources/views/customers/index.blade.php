@@ -1,4 +1,4 @@
-@extends('customers.layouts.layout')
+@extends('layouts.layout')
 
 @section('content')
     <h1 class="text-center my-4">Customers</h1>

@@ -1,4 +1,4 @@
-@extends('books.layouts.layout')
+@extends('layouts.layout')
 
 @section('title')
 Books
@@ -28,7 +28,7 @@ Books
                     <td class="d-flex gap-2">
                         <a href="{{ route('books.show', $book->id) }}" class="btn btn-primary btn-sm">Show</a>
                         <a href="{{ route('books.edit', $book->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('books.destroy',$book->id) }}" method="post">
+                        <form action="{{ route('books.destroy', $book->id) }}" method="post" onsubmit="return confirm('Are you sure want to delete this book?')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>

@@ -1,4 +1,4 @@
-@extends('suppliers.layouts.layout')
+@extends('layouts.layout')
 
 @section('content')
     <div class="container">
@@ -7,7 +7,7 @@
         <div class="col-6 mx-auto">
             <form action="{{ route('suppliers.update', $supplier->id) }}" method="POST">
                 @csrf
-                @method('PUT') 
+                @method('PUT')
 
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>

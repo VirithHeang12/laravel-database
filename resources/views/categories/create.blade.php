@@ -1,4 +1,4 @@
-@extends('categories.layouts.layout')
+@extends('layouts.layout')
 
 @section('content')
     <form action="{{ route('categories.store') }}" method="post">

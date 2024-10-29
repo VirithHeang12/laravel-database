@@ -1,4 +1,4 @@
-@extends('doctors.layouts.layout')
+@extends('layouts.layout')
 
 @section('title')
 Create Category

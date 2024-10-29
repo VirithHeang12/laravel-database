@@ -1,4 +1,4 @@
-@extends('suppliers.layouts.layout')
+@extends('layouts.layout')
 
 @section('content')
     <div class="container mb-5">

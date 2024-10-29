@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -22,7 +23,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        Product::factory()->count(10)->create();
+        return view('products.create');
     }
 
     /**
@@ -30,7 +31,25 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            Product::create([
+                'name'          => $request->name,
+                'description'   => $request->description,
+                'price'         => $request->price,
+                'category_id'   => 1,
+            ]);
+
+
+            DB::commit();
+
+            return redirect()->route('products.index')->with('success', 'Product created successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('products.index')->with('error', 'Product creation failed');
+        }
     }
 
     /**
@@ -38,7 +57,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('products.show', [
+            'product' => $product
+        ]);
     }
 
     /**
@@ -46,7 +67,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('products.edit', [
+            'product' => $product
+        ]);
     }
 
     /**
@@ -54,7 +77,24 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $product->update([
+                'name'          => $request->name,
+                'description'   => $request->description,
+                'price'         => $request->price,
+                'category_id'   => 1,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('products.index')->with('success', 'Product updated successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('products.index')->with('error', 'Product update failed');
+        }
     }
 
     /**
@@ -62,6 +102,18 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $product->delete();
+
+            DB::commit();
+
+            return redirect()->route('products.index')->with('success', 'Product deleted successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('products.index')->with('error', 'Product deletion failed');
+        }
     }
 }
