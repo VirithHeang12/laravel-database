@@ -45,6 +45,25 @@
         <p>&copy; Copyright 2024</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // Wait for the page to load
+        document.addEventListener("DOMContentLoaded", function () {
+            // Select the success message div
+            const successMessage = document.getElementById('success-message');
+
+            // If it exists, set a timeout to hide it after 2 seconds (2000ms)
+            if (successMessage) {
+                setTimeout(() => {
+                    // Fade out by setting the opacity to 0
+                    successMessage.style.transition = 'opacity 0.5s ease';
+                    successMessage.style.opacity = '0';
+
+                    // Remove the element from the DOM after the fade-out
+                    setTimeout(() => successMessage.remove(), 500);
+                }, 2000);
+            }
+        });
+    </script>
 </body>
 </html>
 

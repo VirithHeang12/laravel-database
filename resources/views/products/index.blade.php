@@ -6,11 +6,11 @@ Products
 
 @section('content')
     @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div id="success-message" class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+        <div id="success-message" class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
     <h1 class="text-center fw-bold">Products</h1>
