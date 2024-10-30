@@ -7,6 +7,14 @@
 @section('content')
     <h1 class="text-center fw-bold">Cars</h1>
     <a href="{{ route('cars.create') }}" class="btn btn-dark">Create Car</a>
+    <a href="{{ route('cars.popular') }}" class="btn btn-dark">Popular Cars</a>
+    <form action="{{ route('cars.index') }}" method="GET">
+        <label for="year">year</label>
+        <input type="number" name="year" id="year" value="1000">
+        <label for="price">price</label>
+        <input type="number" name="price" id="price" value="1000">
+        <button type="submit" class="btn btn-primary mt-2">Filter</button>
+    </form>
     <table class="table table-striped mt-4">
         <thead class="thead-dark">
             <tr>

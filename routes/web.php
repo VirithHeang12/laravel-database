@@ -26,4 +26,5 @@ Route::resource('customers', CustomerController::class);
 Route::resource('doctors', DoctorController::class);
 Route::resource('books', BookController::class);
 
-Route::resource('cars', Carcontroller::class);
+Route::resource('cars', CarController::class);
+Route::get('popular-cars', [CarController::class, 'popularCars'])->name('cars.popular');

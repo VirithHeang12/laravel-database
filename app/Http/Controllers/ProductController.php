@@ -13,8 +13,10 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $products = Product::all();
+
         return view('products.index', [
-            'products' => Product::all()
+            'products' => $products
         ]);
     }
 
@@ -34,13 +36,20 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try {
-            Product::create([
+            // Product::create([
+            //     'name'          => $request->name,
+            //     'description'   => $request->description,
+            //     'price'         => $request->price,
+            //     'category_id'   => 1,
+            // ]);
+            DB::table('products')->insert([
                 'name'          => $request->name,
                 'description'   => $request->description,
                 'price'         => $request->price,
                 'category_id'   => 1,
+                'created_at'    => now(),
+                'updated_at'    => now(),
             ]);
-
 
             DB::commit();
 
@@ -80,11 +89,17 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try {
-            $product->update([
+            // $product->update([
+            //     'name'          => $request->name,
+            //     'description'   => $request->description,
+            //     'price'         => $request->price,
+            // ]);
+
+            DB::table('products')->where('id', $product->id)->update([
                 'name'          => $request->name,
                 'description'   => $request->description,
                 'price'         => $request->price,
-                'category_id'   => 1,
+                'updated_at'    => now(),
             ]);
 
             DB::commit();
@@ -105,7 +120,8 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try {
-            $product->delete();
+            // $product->delete();
+            DB::table('products')->where('id', $product->id)->delete();
 
             DB::commit();
 

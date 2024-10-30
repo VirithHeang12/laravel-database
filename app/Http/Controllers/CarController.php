@@ -11,9 +11,17 @@ class CarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cars = Car::all();
+        if ($request->has('price') && $request->has('year')) {
+            $cars = DB::table('cars')
+                ->where('price', '>=', $request->price)
+                ->where('year', '>=', $request->year)
+                ->get();
+        } else {
+            $cars = Car::all();
+        }
+
         return view('cars.index', [
             'cars' => $cars
         ]);
@@ -107,5 +115,23 @@ class CarController extends Controller
 
             return redirect()->route('car.index')->with('error', 'Car deletion failed');
         }
+    }
+
+    /**
+     * Display a listing of popular cars.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function popularCars()
+    {
+        $popularCars = DB::table('cars')
+            ->where('price', '>=', 1000000)
+            ->where('year', '>=', 2010)
+            ->get();
+
+        return view('cars.popular-cars', [
+            'cars' => $popularCars
+        ]);
+
     }
 }
