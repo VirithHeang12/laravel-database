@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupplierController extends Controller
 {
@@ -12,11 +13,10 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        //
         $suppliers = Supplier::all();
 
         return view('suppliers.index', [
-            'suppliers'        => $suppliers
+            'suppliers' => $suppliers
         ]);
     }
 
@@ -25,7 +25,6 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
         return view('suppliers.create');
     }
 
@@ -34,14 +33,24 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        Supplier::create([
-            'name'          => $request['name'],
-            'email'         => $request['email'],
-            'phone'         => $request['phone'],
-            'address'       => $request['address'],
-        ]);
+        DB::beginTransaction();
 
-        return redirect()->route('suppliers.index');
+        try {
+            Supplier::create([
+                'name'    => $request->name,
+                'email'   => $request->email,
+                'phone'   => $request->phone,
+                'address' => $request->address,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('suppliers.index')->with('success', 'Supplier created successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('suppliers.index')->with('error', 'Supplier creation failed: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -49,11 +58,7 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        // return view('suppliers.show', compact('supplier'));
-
-        // it is the same as
         return view('suppliers.show', ['supplier' => $supplier]);
-
     }
 
     /**
@@ -61,7 +66,6 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        //
         return view('suppliers.edit', ['supplier' => $supplier]);
     }
 
@@ -70,25 +74,43 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        // Directly updating the supplier with all request data
-        $supplier->update([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'phone' => $request->input('phone'),
-            'address' => $request->input('address'),
-        ]);
+        DB::beginTransaction();
 
-        return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully.');
+        try {
+            $supplier->update([
+                'name'    => $request->input('name'),
+                'email'   => $request->input('email'),
+                'phone'   => $request->input('phone'),
+                'address' => $request->input('address'),
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('suppliers.index')->with('error', 'Supplier update failed: ' . $e->getMessage());
+        }
     }
-
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Supplier $supplier)
     {
-        $supplier->delete();
+        DB::beginTransaction();
 
-        return redirect()->route('suppliers.index')->with('success', 'Supplier deleted successfully.');
+        try {
+            $supplier->delete();
+
+            DB::commit();
+
+            return redirect()->route('suppliers.index')->with('success', 'Supplier deleted successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('suppliers.index')->with('error', 'Supplier deletion failed: ' . $e->getMessage());
+        }
     }
 }

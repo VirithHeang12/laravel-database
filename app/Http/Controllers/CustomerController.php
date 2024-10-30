@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -31,10 +32,22 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        Customer::create([
-            'name'          => $request['name'],
-            'phone'   => $request['phone']
-        ]);
+        DB::beginTransaction();
+
+        try {
+            Customer::create([
+                'name'          => $request['name'],
+                'phone'   => $request['phone']
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('customers.index')->with('success', 'Customer created successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('customers.index')->with('error', 'Customer creation failed');
+        }
 
         return redirect()->route('customers.index');
     }
@@ -64,11 +77,22 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        $customer->update([
-            'name' => $request['name'],
-            'phone' => $request['phone']
-        ]);
-        return redirect()->route('customers.index');
+        DB::beginTransaction();
+
+        try {
+            $customer->update([
+                'name' => $request['name'],
+                'phone' => $request['phone']
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('customers.index')->with('success', 'Customer updated successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('customers.index')->with('error', 'Customer update failed');
+        }
     }
 
     /**
@@ -76,7 +100,18 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        $customer->delete();
-        return redirect()->route('customers.index');
+        DB::beginTransaction();
+
+        try {
+            $customer->delete();
+
+            DB::commit();
+
+            return redirect()->route('customers.index')->with('success', 'Customer deleted successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('customers.index')->with('error', 'Customer deletion failed');
+        }
     }
 }
