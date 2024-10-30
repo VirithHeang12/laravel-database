@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\Carcontroller;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,24 +26,4 @@ Route::resource('customers', CustomerController::class);
 Route::resource('doctors', DoctorController::class);
 Route::resource('books', BookController::class);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Route::resource('cars', Carcontroller::class);

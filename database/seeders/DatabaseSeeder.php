@@ -34,7 +34,8 @@ class DatabaseSeeder extends Seeder
             // TeacherSeeder::class,
             // CustomerSeeder::class,
             // DoctorSeeder::class,
-            BookSeeder::class,
+            //BookSeeder::class,
+            CarSeeder::class
         ]);
     }
 }
