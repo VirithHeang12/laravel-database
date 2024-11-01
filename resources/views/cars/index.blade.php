@@ -13,6 +13,8 @@
         <input type="number" name="year" id="year" value="1000">
         <label for="price">price</label>
         <input type="number" name="price" id="price" value="1000">
+        <label for="model">Model</label>
+        <input type="text" name="model" id="model">
         <button type="submit" class="btn btn-primary mt-2">Filter</button>
     </form>
     <table class="table table-striped mt-4">
@@ -49,4 +51,5 @@
             @endforeach
         </tbody>
     </table>
+    {{ $cars->links() }}
 @endsection

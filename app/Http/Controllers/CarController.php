@@ -13,13 +13,17 @@ class CarController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('price') && $request->has('year')) {
+        if (($request->has('price') && isset($request->price)) || ($request->has('year') && isset($request->year)) || ($request->has('model') && isset($request->model))) {
             $cars = DB::table('cars')
-                ->where('price', '>=', $request->price)
-                ->where('year', '>=', $request->year)
-                ->get();
+                ->where(function ($query) use ($request) {
+                    $query->where('price', '>=', $request->price)
+                        ->orWhere('year', '>=', $request->year);
+                })
+                ->where('model', 'like', '%' . $request->model . '%')
+                ->paginate(10);
+
         } else {
-            $cars = Car::all();
+            $cars = Car::paginate(10);
         }
 
         return view('cars.index', [
