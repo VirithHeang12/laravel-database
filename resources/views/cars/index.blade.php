@@ -10,11 +10,11 @@
     <a href="{{ route('cars.popular') }}" class="btn btn-dark">Popular Cars</a>
     <form action="{{ route('cars.index') }}" method="GET">
         <label for="year">year</label>
-        <input type="number" name="year" id="year" value="1000">
+        <input type="number" name="year" id="year" value="{{ request('year') }}">
         <label for="price">price</label>
-        <input type="number" name="price" id="price" value="1000">
+        <input type="number" name="price" id="price" value="{{ request('price') }}">
         <label for="model">Model</label>
-        <input type="text" name="model" id="model">
+        <input type="text" name="model" id="model" value="{{ request('model') }}">
         <button type="submit" class="btn btn-primary mt-2">Filter</button>
     </form>
     <table class="table table-striped mt-4">

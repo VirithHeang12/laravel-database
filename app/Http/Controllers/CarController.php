@@ -20,10 +20,12 @@ class CarController extends Controller
                         ->orWhere('year', '>=', $request->year);
                 })
                 ->where('model', 'like', '%' . $request->model . '%')
-                ->paginate(10);
+                ->paginate(7);
+
+            $cars->appends(['price' => $request->price, 'year' => $request->year, 'model' => $request->model]);
 
         } else {
-            $cars = Car::paginate(10);
+            $cars = Car::paginate(7)->withQueryString();
         }
 
         return view('cars.index', [
