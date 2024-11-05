@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Cars\StoreRequest;
+use App\Http\Requests\Cars\UpdateRequest;
 use App\Models\Car;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -93,25 +94,19 @@ class CarController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Car $car)
+    public function update(UpdateRequest $request, Car $car)
     {
-        $data = $request->validate([
-            'model'         => ['required', 'string', 'unique:cars,model,' . $car->id],
-            'year'          => ['required', 'integer', 'min:1900', 'max:2024'],
-            'color'         => ['nullable', 'string'],
-            'engine_type'   => ['nullable', 'string'],
-            'price'         => ['required', 'numeric', 'min:0']
-        ]);
+        $validated = $request->validated();
 
         DB::beginTransaction();
 
         try {
             $car->update([
-                'model'          => $data['model'],
-                'year'           => $data['year'],
-                'color'          => $data['color'],
-                'engine_type'    => $data['engine_type'],
-                'price'          => $data['price']
+                'model'         => $validated['model'],
+                'year'          => $validated['year'],
+                'color'         => $validated['color'],
+                'engine_type'   => $validated['engine_type'],
+                'price'         => $validated['price']
             ]);
 
             DB::commit();
