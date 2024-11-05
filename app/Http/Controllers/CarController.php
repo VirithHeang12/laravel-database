@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCarRequest;
+use App\Http\Requests\Cars\StoreRequest;
 use App\Models\Car;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -48,7 +48,7 @@ class CarController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCarRequest $request)
+    public function store(StoreRequest $request)
     {
         DB::beginTransaction();
 
