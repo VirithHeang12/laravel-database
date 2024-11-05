@@ -12,9 +12,17 @@
             <div id="success-message" class="alert alert-danger">{{ session('error') }}</div>
         @endif
         <h2 class="text-center" style="color: grey">Supplier</h2>
-        <div class="d-flex justify-content-end align-items-center">
-            <a href="{{ route('suppliers.create') }}" type="button" class="btn btn-secondary">Create Supplier</a>
+        <div class="d-flex align-items-center justify-content-between">
+            <form method="GET" action="{{ route('suppliers.index') }}" class="d-flex">
+                <input type="text" class="form-control me-2" name="name" placeholder="Name" value="{{ request('name') }}">
+                <input type="text" class="form-control me-2" name="address" placeholder="Address" value="{{ request('address') }}">
+                <button type="submit" class="btn btn-secondary">Filter</button>
+            </form>
+            <div>
+                <a href="{{ route('suppliers.create') }}" class="btn btn-dark">Create Supplier</a>
+            </div>
         </div>
+
 
         <div class="table-responsive">
             <table class="table table-hover text-nowrap mt-5 table-centered">
@@ -54,12 +62,16 @@
 
                 </tbody>
             </table>
+
+            {{-- For pagination  --}}
+            <div class="d-flex mt-3">
+                {{ $suppliers->links('pagination::bootstrap-4') }}
+            </div>
+
         </div>
 
     </div>
 @endsection
-
-
 
 @section('title')
     List Suppliers
