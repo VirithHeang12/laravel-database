@@ -1,11 +1,11 @@
 @extends('layouts.layout')
 
 @section('title')
-    Cars
+    {{ __('cars')}}
 @endsection
 
 @section('content')
-    <h1 class="text-center fw-bold">Cars</h1>
+    <h1 class="text-center fw-bold">{{ __('cars') }}</h1>
     <a href="{{ route('cars.create') }}" class="btn btn-dark">Create Car</a>
     <a href="{{ route('cars.popular') }}" class="btn btn-dark">Popular Cars</a>
     <form action="{{ route('cars.index') }}" method="GET">
