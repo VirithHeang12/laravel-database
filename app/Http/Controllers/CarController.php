@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCarRequest;
 use App\Models\Car;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class CarController extends Controller
 {
@@ -28,6 +30,8 @@ class CarController extends Controller
             $cars = Car::paginate(7)->withQueryString();
         }
 
+        App::setlocale('km');
+
         return view('cars.index', [
             'cars' => $cars
         ]);
@@ -44,17 +48,26 @@ class CarController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCarRequest $request)
     {
-        Car::create([
-            'model' => $request['model'],
-            'year' => $request['year'],
-            'color' => $request['color'],
-            'engine_type' => $request['engine_type'],
-            'price' => $request['price'],
-        ]);
+        DB::beginTransaction();
 
-        return redirect()->route('cars.index');
+        try {
+            Car::create([
+                'model'         => $request['model'],
+                'year'          => $request['year'],
+                'color'         => $request['color'],
+                'engine_type'   => $request['engine_type'],
+                'price'         => $request['price']
+            ]);
+            DB::commit();
+
+            return redirect()->route('cars.index')->with('success', 'Car created successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('cars.index')->with('error', 'Car creation failed');
+        }
     }
 
     /**
@@ -82,15 +95,23 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
+        $data = $request->validate([
+            'model'         => ['required', 'string', 'unique:cars,model,' . $car->id],
+            'year'          => ['required', 'integer', 'min:1900', 'max:2024'],
+            'color'         => ['nullable', 'string'],
+            'engine_type'   => ['nullable', 'string'],
+            'price'         => ['required', 'numeric', 'min:0']
+        ]);
+
         DB::beginTransaction();
 
         try {
             $car->update([
-                'model'          => $request->model,
-                'year'   => $request->year,
-                'color'         => $request->color,
-                'engine_type'   => $request->engine_type,
-                'price' => $request->price
+                'model'          => $data['model'],
+                'year'           => $data['year'],
+                'color'          => $data['color'],
+                'engine_type'    => $data['engine_type'],
+                'price'          => $data['price']
             ]);
 
             DB::commit();
