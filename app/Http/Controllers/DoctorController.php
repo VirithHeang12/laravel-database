@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Doctor;
+use App\Http\Requests\Doctors\StoreRequest;
+use App\Http\Requests\Doctors\UpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -11,9 +13,15 @@ class DoctorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $doctors = Doctor::all();
+        $doctors = Doctor::when($request->specialty, function($query, $specialty){
+            return $query->where('specialty', '=', $specialty);
+        })->when($request->full_name, function($query, $full_name){
+            return $query->where('full_name', 'like', '%' . $full_name . '%');
+        })->paginate(10)->withQueryString();
+
+
         return view('doctors.index', [
             'doctors' => $doctors
         ]);
@@ -30,7 +38,7 @@ class DoctorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         DB::beginTransaction();
         try {
@@ -71,14 +79,16 @@ class DoctorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Doctor $doctor)
+    public function update(UpdateRequest $request, Doctor $doctor)
     {
+        $validated = $request->validated();
+
         DB::beginTransaction();
         try {
             $doctor->update([
-                'full_name' => $request->full_name,
-                'specialty' => $request->specialty,
-                'phone_number' => $request->phone_number,
+                'full_name' => $validated['full_name'],
+                'specialty' => $validated['specialty'],
+                'phone_number' => $validated['phone_number'],
             ]);
 
             DB::commit();
@@ -88,6 +98,7 @@ class DoctorController extends Controller
             return redirect()->route('doctors.index')->with('error', 'Doctor update failed.');
         }
     }
+
 
     /**
      * Remove the specified resource from storage.
