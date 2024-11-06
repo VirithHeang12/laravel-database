@@ -15,6 +15,22 @@
 
     <h1 class="text-center fw-bold">Doctors</h1>
     <a href="{{ route('doctors.create') }}" class="btn btn-dark">Create Doctor</a>
+
+    <form action="{{ route('doctors.index') }}" method="GET" class="mt-4 d-flex align-items-center justify-content-between gap-2">
+        <input type="text" class="form-control" name="full_name" id="full_name" value="{{ request('full_name') }}" placeholder="Enter name here">
+
+        <select name="specialty" id="specialty" class="form-select">
+            <option value="" disabled {{ request('specialty') ? '' : 'selected' }}>Select specialty here</option>
+            <option value="Cardiology" {{ request('specialty') == 'Cardiology' ? 'selected' : '' }}>Cardiology</option>
+            <option value="Neurology" {{ request('specialty') == 'Neurology' ? 'selected' : '' }}>Neurology</option>
+            <option value="Orthopedics" {{ request('specialty') == 'Orthopedics' ? 'selected' : '' }}>Orthopedics</option>
+            <option value="General" {{ request('specialty') == 'General' ? 'selected' : '' }}>General</option>
+            <option value="Pediatrician" {{ request('specialty') == 'Pediatrician' ? 'selected' : '' }}>Pediatrician</option>
+        </select>
+        <button type="submit" class="btn btn-outline-dark">Filter</button>
+    </form>
+
+
     <table class="table table-striped mt-4">
         <thead class="thead-dark">
             <tr>
@@ -48,4 +64,6 @@
             @endforeach
         </tbody>
     </table>
+
+    {{ $doctors->links() }}
 @endsection
