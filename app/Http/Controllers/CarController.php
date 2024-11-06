@@ -16,20 +16,13 @@ class CarController extends Controller
      */
     public function index(Request $request)
     {
-        if (($request->has('price') && isset($request->price)) || ($request->has('year') && isset($request->year)) || ($request->has('model') && isset($request->model))) {
-            $cars = DB::table('cars')
-                ->where(function ($query) use ($request) {
-                    $query->where('price', '>=', $request->price)
-                        ->orWhere('year', '>=', $request->year);
-                })
-                ->where('model', 'like', '%' . $request->model . '%')
-                ->paginate(7);
-
-            $cars->appends(['price' => $request->price, 'year' => $request->year, 'model' => $request->model]);
-
-        } else {
-            $cars = Car::paginate(7)->withQueryString();
-        }
+        $cars = Car::when($request->price, function ($query, $price) {
+            return $query->where('price', '>=', $price);
+        })->when($request->year, function ($query, $year) {
+            return $query->where('year', '>=', $year);
+        })->when($request->model, function ($query, $model) {
+            return $query->where('model', 'like', '%' . $model . '%');
+        })->paginate(7)->withQueryString();
 
         App::setlocale('km');
 
