@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Cars;
 
+use App\Models\Car;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCarRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,10 +20,10 @@ class StoreCarRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules(Car $car): array
     {
         return [
-            'model'         => ['required', 'string', 'unique:cars'],
+            'model'         => ['required', 'string', 'unique:cars,model,' . $car->id],
             'year'          => ['required', 'integer', 'min:1900', 'max:2024'],
             'color'         => ['nullable', 'string'],
             'engine_type'   => ['nullable', 'string'],
