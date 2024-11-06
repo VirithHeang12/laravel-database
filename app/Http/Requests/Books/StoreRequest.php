@@ -22,10 +22,10 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'       => ['required', 'string', 'max:255'],
-            'author'      => ['required','string', 'max:255'],
-            'published_year'      => ['required', 'string', 'max:5'],
-            'genre'    => ['nullable', 'string', 'max:255'],
+            'title'             => ['required', 'string', 'max:255'],
+            'author'            => ['required','string', 'max:255'],
+            'published_year'    => ['required', 'string', 'max:5'],
+            'genre'             => ['nullable', 'string', 'max:255'],
         ];
     }
 }

@@ -37,6 +37,6 @@ class DoctorSeeder extends Seeder
         }
 
         // generate dummy data
-        DoctorFactory::new()->count(10)->create();
+        DoctorFactory::new()->count(100)->create();
     }
 }

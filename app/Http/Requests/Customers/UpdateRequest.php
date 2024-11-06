@@ -20,7 +20,7 @@ class UpdateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules( Customer $customer): array
+    public function rules(Customer $customer): array
     {
         return [
             'name'           => ['required', 'string', $customer->id],

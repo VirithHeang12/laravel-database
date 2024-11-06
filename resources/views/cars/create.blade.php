@@ -9,7 +9,7 @@
         @csrf
         <div class="mb-3">
             <label for="model" class="form-label">Car Model</label>
-            <input type="text" name="model" id="model" class="form-control" required value="{{ old('model') }}">
+            <input type="text" name="model" id="model" class="form-control" value="{{ old('model') }}">
             @error('model')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -23,7 +23,7 @@
         </div>
         <div class="mb-3">
             <label for="color" class="form-label">Color</label>
-            <input type="text" name="color" id="color" class="form-control" required value="{{ old('color') }}">
+            <input type="text" name="color" id="color" class="form-control" value="{{ old('color') }}">
             @error('color')
                 <div class="text-danger">{{ $message }}</div>
             @enderror

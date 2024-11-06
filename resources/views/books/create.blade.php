@@ -10,6 +10,9 @@ Create Category
     <div class="mb-3">
         <label for="book_title" class="form-label">Book Title</label>
         <input type="text" name="title" id="title" class="form-control" required>
+        @error('title')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
     </div>
     <div class="mb-3">
         <label for="author" class="form-label">Author Name</label>

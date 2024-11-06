@@ -24,6 +24,6 @@ class CustomerSeeder extends Seeder
         //     Customer::create($customer);
         // }
 
-        CustomerFactory::new()->count(10)->create();
+        CustomerFactory::new()->count(100)->create();
     }
 }

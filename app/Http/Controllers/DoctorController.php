@@ -21,7 +21,6 @@ class DoctorController extends Controller
             return $query->where('full_name', 'like', '%' . $full_name . '%');
         })->paginate(10)->withQueryString();
 
-
         return view('doctors.index', [
             'doctors' => $doctors
         ]);

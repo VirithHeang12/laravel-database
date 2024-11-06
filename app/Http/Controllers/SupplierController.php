@@ -51,7 +51,7 @@ class SupplierController extends Controller
     }
 
     // Paginate the final query
-    $suppliers = $suppliersQuery->paginate(10);
+    $suppliers = $suppliersQuery->paginate(10)->appends($request->only('name', 'address'));
 
     return view('suppliers.index', [
         'suppliers' => $suppliers

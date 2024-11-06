@@ -56,10 +56,10 @@ class BookController extends Controller
 
         try {
             Book::create([
-                'title'    => $request['title'],
-                'author'   => $request['author'],
-                'published_year'   => $request['published_year'],
-                'genre' => $request['genre'],
+                'title'                 => $request['title'],
+                'author'                => $request['author'],
+                'published_year'        => $request['published_year'],
+                'genre'                 => $request['genre'],
             ]);
 
             DB::commit();

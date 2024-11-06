@@ -44,15 +44,17 @@ class CarController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        $validated = $request->validated();
+
         DB::beginTransaction();
 
         try {
             Car::create([
-                'model'         => $request['model'],
-                'year'          => $request['year'],
-                'color'         => $request['color'],
-                'engine_type'   => $request['engine_type'],
-                'price'         => $request['price']
+                'model'         => $validated['model'],
+                'year'          => $validated['year'],
+                'color'         => $validated['color'],
+                'engine_type'   => $validated['engine_type'],
+                'price'         => $validated['price']
             ]);
             DB::commit();
 
