@@ -62,11 +62,7 @@
 
                 </tbody>
             </table>
-
-            {{-- For pagination  --}}
-            <div class="d-flex mt-3">
-                {{ $suppliers->links('pagination::bootstrap-4') }}
-            </div>
+            {{ $suppliers->links() }}
 
         </div>
 
