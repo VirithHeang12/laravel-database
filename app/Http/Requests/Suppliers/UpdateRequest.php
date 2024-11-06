@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Suppliers;
 
+use App\Http\Controllers\SupplierController;
+use App\Models\Supplier;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
@@ -19,11 +21,11 @@ class UpdateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules(Supplier $supplier): array
     {
         return [
             'name'    => ['required', 'string', 'max:255'],
-            'email'   => ['required', 'email', 'unique:suppliers,email,' . $this->supplier->id],
+            'email'   => ['required', 'email' . $supplier->id],
             'phone'   => ['required', 'string', 'max:20'],
             'address' => ['nullable', 'string', 'max:255'],
         ];

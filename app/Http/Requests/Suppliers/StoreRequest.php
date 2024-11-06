@@ -23,7 +23,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name'       => ['required', 'string', 'max:255'],
-            'email'      => ['required','email', 'unique:suppliers','email'],
+            'email'      => ['required','email', 'unique:suppliers'],
             'phone'      => ['required', 'string', 'max:20'],
             'address'    => ['nullable', 'string', 'max:255'],
         ];
