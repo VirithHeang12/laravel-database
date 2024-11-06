@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Customers\StoreRequest;
+use App\Http\Requests\Customers\UpdateRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -47,14 +49,14 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         DB::beginTransaction();
 
         try {
             Customer::create([
                 'name'          => $request['name'],
-                'phone'   => $request['phone']
+                'phone'         => $request['phone']
             ]);
 
             DB::commit();
@@ -92,7 +94,7 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Customer $customer)
+    public function update(UpdateRequest $request, Customer $customer)
     {
         DB::beginTransaction();
 
