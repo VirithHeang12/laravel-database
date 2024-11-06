@@ -5,9 +5,27 @@ Books
 @endsection
 
 @section('content')
-    <h1 class="text-center fw-bold">Books</h1>
-    <a href="{{ route('books.create') }}" class="btn btn-dark">Create Book</a>
-    <table class="table table-striped mt-4">
+<div class="container ">
+@if (session('success'))
+            <div id="success-message" class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if (session('error'))
+            <div id="success-message" class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+    <h2 class="text-center fw-bold">Books</h2>
+    <div class="d-flex align-items-center justify-content-between">
+            <form method="GET" action="{{ route('books.index') }}" class="d-flex">
+                <input type="text" class="form-control me-2" name="title" placeholder="Book Title" value="{{ request('name') }}">
+                <input type="text" class="form-control me-2" name="genre" placeholder="Genre" value="{{ request('genre') }}">
+                <button type="submit" class="btn btn-secondary">Filter</button>
+            </form>
+            <div>
+                <a href="{{ route('books.create') }}" class="btn btn-dark">Create Book</a>
+            </div>
+        </div>
+        <div class="table-responsive">
+        <table class="table table-hover text-nowrap mt-5 table-centered">
         <thead class="thead-dark">
             <tr>
                 <th class="py-3" scope="col">ID</th>
@@ -38,7 +56,9 @@ Books
             @endforeach
         </tbody>
     </table>
-
+    {{ $books->links() }}
+</div>
+</div>
 @endsection
 
 
