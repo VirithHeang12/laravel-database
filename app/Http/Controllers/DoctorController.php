@@ -39,12 +39,14 @@ class DoctorController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        $validated = $request->validated();
+
         DB::beginTransaction();
         try {
             Doctor::create([
-                'full_name' => $request['full_name'],
-                'specialty' => $request['specialty'],
-                'phone_number' => $request['phone_number'],
+                'full_name' => $validated['full_name'],
+                'specialty' => $validated['specialty'],
+                'phone_number' => $validated['phone_number'],
             ]);
 
             DB::commit();

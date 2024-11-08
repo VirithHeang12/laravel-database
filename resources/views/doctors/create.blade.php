@@ -10,7 +10,7 @@
         <div class="mb-3">
             <label for="full_name" class="form-label">Full Name</label>
             <input type="text" name="full_name" id="full_name" class="form-control" value="{{ old('full_name') }}"
-                placeholder="Enter full name here" required>
+                placeholder="Enter full name here">
             @error('full_name')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -34,7 +34,7 @@
         <div class="mb-3">
             <label for="phone_number" class="form-label">Phone Number</label>
             <input type="tel" name="phone_number" id="phone_number" class="form-control"
-                value="{{ old('phone_number') }}" placeholder="Enter phone number here" required>
+                value="{{ old('phone_number') }}" placeholder="Enter phone number here">
             @error('phone_number')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
