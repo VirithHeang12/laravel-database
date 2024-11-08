@@ -26,4 +26,17 @@ class StoreRequest extends FormRequest
             'phone'          => ['required', 'string', 'unique:customers', 'min:9', 'max:15'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required'         => 'name is required.',
+            'name.string'           => 'The name field must be a string.',
+            'phone.required'        => 'phone is required.',
+            'phone.string'          => 'The phone field must be a string.',
+            'phone.unique'          => 'Phone Number has already used.',
+            'phone.min'             => 'The phone field must be at least 9 character.',
+            'phone.max'             => 'The phone field may not be greater than 15 character.',
+        ];
+    }
 }

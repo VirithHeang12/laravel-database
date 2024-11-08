@@ -22,16 +22,9 @@ class CustomerController extends Controller
     // }
     
     public function index(Request $request){
-        if (($request->has('name') && isset($request->name))) {
-            $customers = DB::table('customers')
-                ->where('name', 'like', '%' . $request->name . '%')
-                ->paginate(7);
-
-            $customers->appends(['name' => $request->name]);
-
-        } else {
-            $customers = Customer::paginate(7)->withQueryString();
-        }
+        $customers = Customer::when($request->name, function($query, $name){
+            return $query->where('name', 'like', '%' . $name . '%');
+        })->paginate(10)->withQueryString();
 
         return view('customers.index', [
             'customers' => $customers
