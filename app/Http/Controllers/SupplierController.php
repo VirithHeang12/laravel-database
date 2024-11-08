@@ -13,50 +13,19 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      */
-    // public function index(Request $request)
-    // {
-    //     $suppliers = Supplier::all();
-    //     if(($request->has('name') && isset($request->name)) || ($request->has('address') && isset($request->address))){
-    //         $suppliers = DB::table('suppliers')
-    //                     ->where(function ($query) use ($request){
-    //                         $query->where('name',  '>=', $request->name);
-    //                         $query->orWhere('address', 'like', '%'. $request->address.'%');
-    //                     })
-    //                     ->paginate(10);
-    //     }
-    //     else{
-    //         $suppliers = Supplier::paginate(10);
-    //     }
 
-    //     return view('suppliers.index', [
-    //         'suppliers' => $suppliers
-    //     ]);
-    // }
+    public function index(Request $request){
 
-    public function index(Request $request)
-{
-    // Default query without filters
-    $suppliersQuery = DB::table('suppliers');
+        $suppliers = Supplier::when($request->name, function($query, $name){
+            return $query->where('name', 'like', '%' . $name . '%');
+        })->when($request->address, function($query, $address){
+            return $query->where('address', 'like', '%'. $address.'%');
+        })->paginate(10)->withQueryString();
 
-    // Apply filters if the name or address fields are provided
-    if (($request->has('name') && !empty($request->name)) || ($request->has('address') && !empty($request->address))) {
-        $suppliersQuery->where(function ($query) use ($request) {
-            if ($request->filled('name')) {
-                $query->where('name', 'like', '%' . $request->name . '%');
-            }
-            if ($request->filled('address')) {
-                $query->orWhere('address', 'like', '%' . $request->address . '%');
-            }
-        });
+        return view('suppliers.index', [
+           'suppliers' => $suppliers
+        ]);
     }
-
-    // Paginate the final query
-    $suppliers = $suppliersQuery->paginate(10)->appends($request->only('name', 'address'));
-
-    return view('suppliers.index', [
-        'suppliers' => $suppliers
-    ]);
-}
 
 
     /**
