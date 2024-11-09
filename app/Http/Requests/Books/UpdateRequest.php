@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Books;
 
-use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\BookController;
 use App\Models\Book;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -21,13 +21,38 @@ class UpdateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(Book $book): array
+    public function rules(): array
     {
+        $book = $this->route('book');
         return [
             'title'    => ['required', 'string', 'max:255'],
-            'author'   => ['required', 'string' . $book->id],
+            'author'   => ['required', 'string' , 'max:255'],
             'published_year'   => ['required', 'string', 'max:5'],
             'genre' => ['nullable', 'string', 'max:255'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required'    => 'សូមបំពេញចំណងជើងសៀវភៅ',
+            'title.string'      => 'សូមបំពេញចំណងជើងសៀវភៅឱ្យបានត្រឹមត្រូវ',
+            'title.max'         => 'ចំណងជើងសៀវភៅមិនអាចលើសពី 255 តួបានឡើយ',
+
+
+            'author.required'   => 'សូមបំពេញឈ្មោះអ្នកនិពន្ធ',
+            'author.string'      => 'សូមបំពេញឈ្មោះអ្នកនិពន្ធឱ្យបានត្រឹមត្រូវ',
+            'author.max'         => 'ឈ្មោះអ្នកនិពន្ធមិនអាចលើសពី 255 តួបានឡើយ',
+
+
+            
+            'published_year.string'   => 'សូមបំពេញលេខឆ្នាំនិពន្ធឱ្យបានត្រឹមត្រូវ', 
+            'published_year.max'      => 'ឆ្នាំមិនអាចលើសពី 5 តួទេ',
+
+
+            
+            'genre.string'   => 'សូមបំពេញប្រភេទសៀវភៅឱ្យបានត្រឹមត្រូវ',
+            'genre.max'      => 'ប្រភេទសៀវភៅមិនអាចលើសពី 255 តួបានឡើយ',
         ];
     }
 
