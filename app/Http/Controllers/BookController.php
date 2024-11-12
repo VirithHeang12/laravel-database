@@ -14,30 +14,18 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-{
-    // Default query without filters
-    $booksQuery = DB::table('books');
+public function index(Request $request)
+    {
+        $books = Book::when($request->genre, function($query, $genere){
+            return $query->where('genre', '=', $genre);
+        })->when($request->title, function($query, $title){
+            return $query->where('title', 'like', '%' . $title . '%');
+        })->paginate(10)->withQueryString();
 
-    // Apply filters if the name or address fields are provided
-    if (($request->has('title') && !empty($request->title)) || ($request->has('genre') && !empty($request->genre))) {
-        $booksQuery->where(function ($query) use ($request) {
-            if ($request->filled('title')) {
-                $query->where('title', 'like', '%' . $request->title . '%');
-            }
-            if ($request->filled('genre')) {
-                $query->orWhere('genre', 'like', '%' . $request->genre . '%');
-            }
-        });
+        return view('books.index', [
+            'books' => $books
+        ]);
     }
-
-    // Paginate the final query
-    $books = $booksQuery->paginate(10);
-
-    return view('books.index', [
-        'books' => $books
-    ]);
-}
 
     /**
      * Show the form for creating a new resource.
@@ -52,6 +40,7 @@ class BookController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        $validated = $request->validated();
         DB::beginTransaction();
 
         try {
@@ -94,6 +83,7 @@ class BookController extends Controller
      */
     public function update(UpdateRequest $request, Book $book)
     {
+        $validated = $request->validated();
         DB::beginTransaction();
 
         try {
