@@ -49,9 +49,10 @@ class CarController extends Controller
         DB::beginTransaction();
 
         try {
-            Car::create([
+            Car::updateOrCreate([
                 'model'         => $validated['model'],
                 'year'          => $validated['year'],
+            ], [
                 'color'         => $validated['color'],
                 'engine_type'   => $validated['engine_type'],
                 'price'         => $validated['price']
@@ -149,6 +150,20 @@ class CarController extends Controller
         return view('cars.popular-cars', [
             'cars' => $popularCars
         ]);
+    }
 
+    /**
+     * Display deleted cars.
+     *
+     * @return \Illuminate\Http\Response
+     *
+     */
+    public function deletedCars()
+    {
+        $deletedCars = Car::onlyTrashed()->get();
+
+        return view('cars.deleted-cars', [
+            'cars' => $deletedCars
+        ]);
     }
 }

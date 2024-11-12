@@ -5,9 +5,18 @@
 @endsection
 
 @section('content')
+    @if (session('success'))
+        <div id="success-message" class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    @if (session('error'))
+        <div id="success-message" class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
     <h1 class="text-center fw-bold">{{ __('cars') }}</h1>
     <a href="{{ route('cars.create') }}" class="btn btn-dark">Create Car</a>
     <a href="{{ route('cars.popular') }}" class="btn btn-dark">Popular Cars</a>
+    <a href="{{ route('cars.deleted') }}" class="btn btn-dark">Show Deleted Cars</a>
     <form action="{{ route('cars.index') }}" method="GET">
         <label for="year">year</label>
         <input type="number" name="year" id="year" value="{{ request('year') }}">

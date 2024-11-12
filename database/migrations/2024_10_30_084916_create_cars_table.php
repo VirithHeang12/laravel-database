@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('color');
             $table->string('engine_type');
             $table->double('price')->nullable(false);
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

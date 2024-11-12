@@ -30,7 +30,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'model'         => ['required', 'string', 'unique:cars'],
+            'model'         => ['required', 'string',],
             'year'          => ['required', 'integer', 'min:1900', 'max:2024'],
             'color'         => ['nullable', 'string'],
             'engine_type'   => ['nullable', 'string'],
