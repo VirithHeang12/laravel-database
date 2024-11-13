@@ -15,6 +15,7 @@
 
     <h1 class="text-center fw-bold">Doctors</h1>
     <a href="{{ route('doctors.create') }}" class="btn btn-dark">Create Doctor</a>
+    <a href="{{ route('doctors.deleted') }}" class="btn btn-dark">Show Deleted Doctors</a>
 
     <form action="{{ route('doctors.index') }}" method="GET" class="mt-4 d-flex align-items-center justify-content-between gap-2">
         <input type="text" class="form-control" name="full_name" id="full_name" value="{{ request('full_name') }}" placeholder="Enter name here">

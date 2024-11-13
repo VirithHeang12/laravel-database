@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('full_name', 100);
             $table->string('specialty', 50)->nullable();
             $table->string('phone_number', 15);
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

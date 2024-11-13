@@ -23,7 +23,10 @@ Route::resource('products', ProductController::class);
 Route::resource('suppliers', SupplierController::class);
 
 Route::resource('customers', CustomerController::class);
+
+Route::get('doctors/deleted', [DoctorController::class, 'deletedDoctors'])->name('doctors.deleted');
 Route::resource('doctors', DoctorController::class);
+
 Route::resource('books', BookController::class);
 
 Route::get('cars/deleted', [CarController::class, 'deletedCars'])->name('cars.deleted');
