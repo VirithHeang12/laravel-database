@@ -15,9 +15,9 @@ class DoctorController extends Controller
      */
     public function index(Request $request)
     {
-        $doctors = Doctor::when($request->specialty, function($query, $specialty){
+        $doctors = Doctor::when($request->specialty, function ($query, $specialty) {
             return $query->where('specialty', '=', $specialty);
-        })->when($request->full_name, function($query, $full_name){
+        })->when($request->full_name, function ($query, $full_name) {
             return $query->where('full_name', 'like', '%' . $full_name . '%');
         })->paginate(10)->withQueryString();
 
@@ -43,11 +43,20 @@ class DoctorController extends Controller
 
         DB::beginTransaction();
         try {
-            Doctor::create([
-                'full_name' => $validated['full_name'],
-                'specialty' => $validated['specialty'],
-                'phone_number' => $validated['phone_number'],
-            ]);
+            // Doctor::create([
+            //     'full_name' => $validated['full_name'],
+            //     'specialty' => $validated['specialty'],
+            //     'phone_number' => $validated['phone_number'],
+            // ]);
+            Doctor::updateOrCreate(
+                [
+                    'full_name' => $validated['full_name'],
+                    'phone_number' => $validated['phone_number']
+                ],
+                [
+                    'specialty' => $validated['specialty'],
+                ]
+            );
 
             DB::commit();
             return redirect()->route('doctors.index')->with('success', 'Doctor created succesfully.');
@@ -116,5 +125,12 @@ class DoctorController extends Controller
             DB::rollBack();
             return redirect()->route('doctors.index')->with('error', 'Doctor deletion failed.');
         }
+    }
+
+    public function deletedDoctors(){
+        $deletedDoctors = Doctor::onlyTrashed()->get();
+        return view('doctors.deleted-doctors', [
+            'doctors' => $deletedDoctors
+        ]);
     }
 }

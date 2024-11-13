@@ -24,7 +24,8 @@ class StoreRequest extends FormRequest
         return [
             'full_name'    => ['required', 'string', 'max:100'],
             'specialty'    => ['nullable', 'string', 'max:50'],
-            'phone_number' => ['required', 'string', 'unique:doctors', 'min:9', 'max:15']
+            // 'phone_number' => ['required', 'string', 'unique:doctors', 'min:9', 'max:15'],
+            'phone_number' => ['required', 'string', 'min:9', 'max:15']
         ];
     }
 
@@ -37,7 +38,7 @@ class StoreRequest extends FormRequest
             'specialty.string'      => 'សូមបំពេញឯកទេសឱ្យបានត្រឹមត្រូវ',
             'specialty.max'         => 'ឈ្មោះមិនអាចលើសពី 50តួបានឡើយ',
             'phone_number.required' => 'សូមបំពេញលេខទូរស័ព្ទជាមុនសិន',
-            'phone_number.unique'   => 'លេខទូរស័ព្ទនេះមានក្នុងប្រព័ន្ធរួចហើយ',
+            // 'phone_number.unique'   => 'លេខទូរស័ព្ទនេះមានក្នុងប្រព័ន្ធរួចហើយ',
             'phone_number.string'   => 'សូមបំពេញលេខទូរស័ព្ទឱ្យបានត្រឹមត្រូវ',
             'phone_number.min'      => 'លេខទូរស័ព្ទមិនអាចតិចជាង 9តួទេ',
             'phone_number.max'      => 'លេខទូរស័ព្ទមិនអាចលើសពី 15តួទេ',
