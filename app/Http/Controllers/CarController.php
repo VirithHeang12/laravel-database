@@ -166,4 +166,23 @@ class CarController extends Controller
             'cars' => $deletedCars
         ]);
     }
+
+    public function restoreCar($id)
+    {
+        $car = Car::withTrashed()->find($id);
+
+        DB::beginTransaction();
+
+        try {
+            $car->restore();
+
+            DB::commit();
+
+            return redirect()->route('cars.index')->with('success', 'Car restored successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('cars.index')->with('error', 'Car restoration failed');
+        }
+    }
 }

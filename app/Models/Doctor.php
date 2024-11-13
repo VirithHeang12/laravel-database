@@ -10,6 +10,7 @@ class Doctor extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $table = 'doctors';
 
     protected $fillable = [
@@ -18,3 +19,4 @@ class Doctor extends Model
         'phone_number'
     ];
 }
+

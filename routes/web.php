@@ -31,6 +31,7 @@ Route::resource('doctors', DoctorController::class);
 
 Route::resource('books', BookController::class);
 
+Route::put('cars/{car}/restore', [CarController::class, 'restoreCar'])->name('cars.restore');
 Route::get('cars/deleted', [CarController::class, 'deletedCars'])->name('cars.deleted');
 Route::resource('cars', CarController::class);
 Route::get('popular-cars', [CarController::class, 'popularCars'])->name('cars.popular');

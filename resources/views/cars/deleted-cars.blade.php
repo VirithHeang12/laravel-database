@@ -14,6 +14,7 @@
                 <th class="py-3" scope="col">Color</th>
                 <th class="py-3" scope="col">Engine Type</th>
                 <th class="py-3" scope="col">Price</th>
+                <th class="py-3" scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +26,13 @@
                     <td>{{ $car->color }}</td>
                     <td>{{ $car->engine_type }}</td>
                     <td>{{ $car->price }}</td>
+                    <td>
+                        <form action="{{ route('cars.restore', ['car' => $car->id]) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-success">Restore</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
