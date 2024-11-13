@@ -14,16 +14,17 @@ class SupplierController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
-        $suppliers = Supplier::when($request->name, function($query, $name){
+        $suppliers = Supplier::when($request->name, function ($query, $name) {
             return $query->where('name', 'like', '%' . $name . '%');
-        })->when($request->address, function($query, $address){
-            return $query->where('address', 'like', '%'. $address.'%');
+        })->when($request->address, function ($query, $address) {
+            return $query->where('address', 'like', '%' . $address . '%');
         })->paginate(10)->withQueryString();
 
         return view('suppliers.index', [
-           'suppliers' => $suppliers
+            'suppliers' => $suppliers
         ]);
     }
 
@@ -44,9 +45,10 @@ class SupplierController extends Controller
         DB::beginTransaction();
 
         try {
-            Supplier::create([
+            Supplier::updateOrCreate([
+                'email'   => $request['email']
+            ], [
                 'name'    => $request['name'],
-                'email'   => $request['email'],
                 'phone'   => $request['phone'],
                 'address' => $request['address'],
             ]);
@@ -121,4 +123,22 @@ class SupplierController extends Controller
             return redirect()->route('suppliers.index')->with('error', 'Supplier deletion failed: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Display deleted cars.
+     *
+     * @return \Illuminate\Http\Response
+     *
+     */
+
+    public function deletedSuppliers()
+    {
+        $deletedSuppliers = Supplier::onlyTrashed()->get();
+
+        return view('suppliers.deleted-suppliers', [
+            'suppliers' => $deletedSuppliers
+        ]);
+    }
+
+    
 }
