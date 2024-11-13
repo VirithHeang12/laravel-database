@@ -47,10 +47,19 @@ class CustomerController extends Controller
         DB::beginTransaction();
 
         try {
-            Customer::create([
-                'name'          => $request['name'],
-                'phone'         => $request['phone']
-            ]);
+            // Customer::create([
+            //     'name'          => $request['name'],
+            //     'phone'         => $request['phone']
+            // ]);
+
+            Customer::updateOrCreate(
+                [
+                    'phone' => $request['phone']
+                ], 
+                [
+                    'name'          => $request['name']
+                ]
+            );
 
             DB::commit();
 
@@ -125,5 +134,13 @@ class CustomerController extends Controller
 
             return redirect()->route('customers.index')->with('error', 'Customer deletion failed');
         }
+    }
+
+    public function deletedCustomers(){
+        $deletedCustomers = Customer::onlyTrashed()->get();
+
+        return view('customers.deleted-customers', [
+            'customers' => $deletedCustomers
+        ]);
     }
 }
