@@ -17,7 +17,9 @@
                 <input type="text" class="form-control me-2" name="name" placeholder="Name" value="{{ request('name') }}">
                 <input type="text" class="form-control me-2" name="address" placeholder="Address" value="{{ request('address') }}">
                 <button type="submit" class="btn btn-secondary">Filter</button>
+
             </form>
+            <a href="{{ route('suppliers.deleted') }}" class="btn btn-danger">Show Deleted Supplier</a>
             <div>
                 <a href="{{ route('suppliers.create') }}" class="btn btn-dark">Create Supplier</a>
             </div>
