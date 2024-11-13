@@ -14,6 +14,7 @@
                 <th class="py-3" scope="col">Full name</th>
                 <th class="py-3" scope="col">Specialty</th>
                 <th class="py-3" scope="col">Phone number</th>
+                <th class="py-3" scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -23,10 +24,17 @@
                     <td>{{ $doctor->full_name }}</td>
                     <td>{{ $doctor->specialty }}</td>
                     <td>{{ $doctor->phone_number }}</td>
+                    <td>
+                        <form action="{{ route('doctors.restore', ['doctor' => $doctor->id]) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-success">Restore</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-    
+
     <a href="{{ route('doctors.index') }}" class="btn btn-dark">Back</a>
 @endsection

@@ -133,4 +133,23 @@ class DoctorController extends Controller
             'doctors' => $deletedDoctors
         ]);
     }
+
+    public function restoreDoctor($id)
+    {
+        $doctor = Doctor::withTrashed()->find($id);
+
+        DB::beginTransaction();
+
+        try {
+            $doctor->restore();
+
+            DB::commit();
+
+            return redirect()->route('doctors.index')->with('success', 'Doctor restored successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('doctors.index')->with('error', 'Doctor restoration failed');
+        }
+    }
 }
