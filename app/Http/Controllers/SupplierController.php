@@ -125,7 +125,7 @@ class SupplierController extends Controller
     }
 
     /**
-     * Display deleted cars.
+     * Display deleted suppliers.
      *
      * @return \Illuminate\Http\Response
      *
@@ -140,5 +140,22 @@ class SupplierController extends Controller
         ]);
     }
 
-    
+    // restore suppliers after they were removed
+    public function restoreSupplier($id){
+        $supplier = Supplier::withTrashed()->find($id);
+
+        DB::beginTransaction();
+
+        try {
+            $supplier->restore();
+
+            DB::commit();
+
+            return redirect()->route('suppliers.index')->with('success', 'Supplier restored successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('suppliers.index')->with('error', 'Supplier restoration failed');
+        }}
+
 }

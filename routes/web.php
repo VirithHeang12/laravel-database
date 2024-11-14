@@ -23,6 +23,7 @@ Route::resource('products', ProductController::class);
 Route::get('suppliers/deleted', [SupplierController::class, 'deletedSuppliers'])->name('suppliers.deleted');
 Route::resource('suppliers', SupplierController::class);
 
+Route::put('suppliers/{supplier}/restore', [SupplierController::class, 'restoreSupplier'])->name('suppliers.restore');
 Route::get('customers/deleted', [CustomerController::class, 'deletedCustomers'])->name('customers.deleted');
 Route::resource('customers', CustomerController::class);
 

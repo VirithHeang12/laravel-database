@@ -16,6 +16,7 @@
                         <th scope="col">Email</th>
                         <th scope="col">Phone Number</th>
                         <th scope="col">Address</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,6 +27,13 @@
                             <td>{{ $supplier->email }}</td>
                             <td>{{ $supplier->phone }}</td>
                             <td>{{ $supplier->address }}</td>
+                            <td>
+                                <form action="{{ route('suppliers.restore', ['supplier' => $supplier->id]) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-info">Restore</button>
+                                </form>
+                            </td>
 
                         </tr>
                     @endforeach
@@ -39,5 +47,3 @@
 
     <a href="{{ route('suppliers.index') }}" class="btn btn-dark">Back</a>
 @endsection
-
-
