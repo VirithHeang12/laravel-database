@@ -20,11 +20,13 @@ Route::resource('users', UserController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
 
+Route::put('suppliers/{supplier}/restore', [SupplierController::class, 'restoreSupplier'])->name('suppliers.restore');
+Route::put('/suppliers/restore-all', [SupplierController::class, 'restoreAllSupplier'])->name('suppliers.restoreAll');
 Route::get('suppliers/deleted', [SupplierController::class, 'deletedSuppliers'])->name('suppliers.deleted');
 Route::resource('suppliers', SupplierController::class);
 
-Route::put('suppliers/{supplier}/restore', [SupplierController::class, 'restoreSupplier'])->name('suppliers.restore');
 Route::get('customers/deleted', [CustomerController::class, 'deletedCustomers'])->name('customers.deleted');
+
 Route::resource('customers', CustomerController::class);
 
 Route::put('doctors/{doctor}/restore', [DoctorController::class, 'restoreDoctor'])->name('doctors.restore');

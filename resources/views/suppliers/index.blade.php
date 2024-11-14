@@ -19,7 +19,7 @@
                 <button type="submit" class="btn btn-secondary">Filter</button>
 
             </form>
-            <a href="{{ route('suppliers.deleted') }}" class="btn btn-danger">Show Deleted Supplier</a>
+            <a href="{{ route('suppliers.deleted') }}" class="btn btn-dark">Show Deleted Supplier</a>
             <div>
                 <a href="{{ route('suppliers.create') }}" class="btn btn-dark">Create Supplier</a>
             </div>
