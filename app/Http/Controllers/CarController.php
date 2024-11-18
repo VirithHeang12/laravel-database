@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CarsExport;
 use App\Http\Requests\Cars\StoreRequest;
 use App\Http\Requests\Cars\UpdateRequest;
 use App\Imports\CarsImport;
@@ -9,6 +10,7 @@ use App\Models\Car;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CarController extends Controller
@@ -209,8 +211,24 @@ class CarController extends Controller
             'file' => 'required|mimes:xlsx,xls'
         ]);
 
-        Excel::import(new CarsImport, $request->file('file'));
+        $import = new CarsImport;
 
-        return redirect()->route('cars.index')->with('success', 'Cars imported successfully');
+        Excel::import($import, $request->file('file'));
+
+        $sucesses       = $import->getSucesses();
+        $fails          = $import->getFails();
+
+        if (count($fails) > 0) {
+            $export = new CarsExport;
+            $export->setFails(collect($fails));
+            $export->setSuccessesCount(count($sucesses));
+            $export->setFailsCount(count($fails));
+
+            return Excel::download($export, 'results.xlsx');
+        }
+
+        return redirect()
+            ->route('cars.index')
+            ->with('success', 'Imported ' . count($sucesses) . ' cars successfully');
     }
 }
