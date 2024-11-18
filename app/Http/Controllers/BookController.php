@@ -16,9 +16,11 @@ class BookController extends Controller
      */
 public function index(Request $request)
     {
-        $books = Book::when($request->genre, function($query, $genere){
-            return $query->where('genre', '=', $genre);
-        })->when($request->title, function($query, $title){
+        // $books = Book::when($request->genre, function($query, $genere){
+        //     return $query->where('genre', '=', $genre);
+        // })->when($request->title, function($query, $title){
+        //     return $query->where('title', 'like', '%' . $title . '%');
+        $books = Book::when($request->title, function($query, $title){
             return $query->where('title', 'like', '%' . $title . '%');
         })->paginate(10)->withQueryString();
 
@@ -40,16 +42,31 @@ public function index(Request $request)
      */
     public function store(StoreRequest $request)
     {
-        $validated = $request->validated();
+        // $validated = $request->validated();
         DB::beginTransaction();
 
         try {
-            Book::create([
-                'title'                 => $request['title'],
-                'author'                => $request['author'],
-                'published_year'        => $request['published_year'],
-                'genre'                 => $request['genre'],
-            ]);
+            // Book::create([
+            //     'title'                 => $request['title'],
+            //     'author'                => $request['author'],
+            //     'published_year'        => $request['published_year'],
+            //     'genre'                 => $request['genre'],
+            // ]);
+
+            Book::updateOrCreate(
+                [
+                    'title' => $request['title']
+                ], 
+                [
+                    'author'          => $request['author']
+                ], 
+                [
+                    'published_year'          => $request['published_year']
+                ], 
+                [
+                    'genre'          => $request['genre']
+                ]
+            );
 
             DB::commit();
 
@@ -83,7 +100,7 @@ public function index(Request $request)
      */
     public function update(UpdateRequest $request, Book $book)
     {
-        $validated = $request->validated();
+        // $validated = $request->validated();
         DB::beginTransaction();
 
         try {
@@ -123,4 +140,45 @@ public function index(Request $request)
             return redirect()->route('books.index')->with('error', 'Book deletion failed: ' . $e->getMessage());
         }
     }
+
+     /**
+     * Display deleted Books.
+     *
+     * @return \Illuminate\Http\Response
+     *
+     */
+
+     public function deletedBooks()
+     {
+         $deletedBooks = Book::onlyTrashed()->get();
+ 
+         return view('books.deleted-books', [
+             'books' => $deletedBooks
+         ]);
+     }
+ 
+     // restore books after they were removed
+     public function restoreBook($id){
+         $book = Book::withTrashed()->find($id);
+ 
+         DB::beginTransaction();
+ 
+         try {
+             $book->restore();
+ 
+             DB::commit();
+ 
+             return redirect()->route('books.index')->with('success', 'Book restored successfully');
+         } catch (\Exception $e) {
+             DB::rollBack();
+ 
+             return redirect()->route('books.index')->with('error', 'Book restoration failed');
+         }}
+ 
+     
+         public function restoreAllBook(){
+             Book::withTrashed()->restore();
+ 
+             return redirect()->route('books.index')->with('success', 'All books restored successfully');
+         }
 }

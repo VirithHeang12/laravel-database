@@ -158,4 +158,12 @@ class SupplierController extends Controller
             return redirect()->route('suppliers.index')->with('error', 'Supplier restoration failed');
         }}
 
+    
+        public function restoreAllSupplier(){
+            Supplier::withTrashed()->restore();
+
+            return redirect()->route('suppliers.index')->with('success', 'All suppliers restored successfully');
+        }
 }
+
+

@@ -5,6 +5,9 @@ Create Category
 @endsection
 
 @section('content')
+<div class="row py-4">
+<div class="col-6 mx-auto">
+<h1 class="text-center mb-5">Create Book</h1>
 <form action="{{ route('books.store') }}" method="post" class="p-4">
     @csrf
     <div class="mb-3">
@@ -33,10 +36,14 @@ Create Category
             <div class="text-danger">{{ $message }}</div>
         @enderror
     </div>
-    <div class="text-end">
-        <button type="submit" class="btn btn-dark">Create</button>
+    <div class="d-flex justify-content-between">
+    <a class="btn btn-outline-dark px-4 mt-4" href="{{ route('books.index') }}">Back</a>
+        <button class="btn btn-outline-primary px-4 mt-4" type="submit">Create</button>
     </div>
 </form>
+</h1>
+</div>
+</div>
 @endsection
 
 

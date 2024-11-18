@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mb-5">
-        <h2 class="text-center" style="color: grey;">Show Book</h2>
+        <h2 class="text-center fw-bold">Show Book</h2>
         <div class="col-6 mx-auto mt-4">
             <table class="table">
                 <tbody>

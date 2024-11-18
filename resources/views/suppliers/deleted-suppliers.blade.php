@@ -1,11 +1,17 @@
 @extends('layouts.layout')
 @section('title')
-    Show Delete Suppliers
+    Show Deleted Suppliers
 @endsection
 
 @section('content')
     <div class="container ">
         <h2 class="text-center" style="color: grey">Soft Deleted Suppliers</h2>
+
+          <form action="{{ route('suppliers.restoreAll') }}" method="POST" class="mb-3">
+            @csrf
+            @method('PUT')
+            <button type="submit" class="btn btn-success">Restore All</button>
+        </form>
 
         <div class="table-responsive">
             <table class="table table-hover text-nowrap mt-5 table-centered">

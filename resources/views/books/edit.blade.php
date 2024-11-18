@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h2 class="text-center" style="color:grey;">Edit Book</h2>
+        <h2 class="text-center fw-bold">Edit Book</h2>
 
         <div class="col-6 mx-auto">
             <form action="{{ route('books.update', $book->id) }}" method="POST" class="p-4">
