@@ -127,7 +127,8 @@ class DoctorController extends Controller
         }
     }
 
-    public function deletedDoctors(){
+    public function deletedDoctors()
+    {
         $deletedDoctors = Doctor::onlyTrashed()->get();
         return view('doctors.deleted-doctors', [
             'doctors' => $deletedDoctors
@@ -150,6 +151,24 @@ class DoctorController extends Controller
             DB::rollBack();
 
             return redirect()->route('doctors.index')->with('error', 'Doctor restoration failed');
+        }
+    }
+
+    public function restoreAllDoctors()
+    {
+        DB::beginTransaction();
+
+        try {
+            // Restore all deleted doctors
+            Doctor::onlyTrashed()->restore();
+
+            DB::commit();
+
+            return redirect()->route('doctors.index')->with('success', 'All deleted doctors restored successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('doctors.index')->with('error', 'Failed to restore all doctors');
         }
     }
 }

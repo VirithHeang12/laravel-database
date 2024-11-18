@@ -6,7 +6,12 @@
 
 @section('content')
     <h1 class="text-center fw-bold">Deleted Doctors</h1>
-
+    <div class="d-flex justify-content-end">
+        <form action="{{ route('doctors.restoreAll') }}" method="POST" onsubmit="return confirm('Are you sure want to restore all deletet doctors?')">
+            @csrf
+            <button type="submit" class="btn btn-dark">Restore All Deleted Doctors</button>
+        </form>
+    </div>
     <table class="table table-striped mt-4">
         <thead class="thead-dark">
             <tr>

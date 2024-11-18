@@ -31,6 +31,7 @@ Route::get('customers/deleted', [CustomerController::class, 'deletedCustomers'])
 Route::resource('customers', CustomerController::class);
 
 Route::put('doctors/{doctor}/restore', [DoctorController::class, 'restoreDoctor'])->name('doctors.restore');
+Route::post('doctors/restore-all', [DoctorController::class, 'restoreAllDoctors'])->name('doctors.restoreAll');
 Route::get('doctors/deleted', [DoctorController::class, 'deletedDoctors'])->name('doctors.deleted');
 Route::resource('doctors', DoctorController::class);
 
