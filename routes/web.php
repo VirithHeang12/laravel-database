@@ -25,8 +25,9 @@ Route::put('/suppliers/restore-all', [SupplierController::class, 'restoreAllSupp
 Route::get('suppliers/deleted', [SupplierController::class, 'deletedSuppliers'])->name('suppliers.deleted');
 Route::resource('suppliers', SupplierController::class);
 
+Route::put('customers/{customer}/restore', [CustomerController::class, 'restoreCustomer'])->name('customers.restore');
+Route::put('/customers/restore-all', [CustomerController::class, 'restoreAllCustomer'])->name('customers.restoreAll');
 Route::get('customers/deleted', [CustomerController::class, 'deletedCustomers'])->name('customers.deleted');
-
 Route::resource('customers', CustomerController::class);
 
 Route::put('doctors/{doctor}/restore', [DoctorController::class, 'restoreDoctor'])->name('doctors.restore');
