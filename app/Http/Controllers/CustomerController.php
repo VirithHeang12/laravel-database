@@ -143,4 +143,29 @@ class CustomerController extends Controller
             'customers' => $deletedCustomers
         ]);
     }
+
+    public function restoreCustomer($id){
+        $customer = Customer::withTrashed()->find($id);
+
+        DB::beginTransaction();
+
+        try {
+            $customer->restore();
+
+            DB::commit();
+
+            return redirect()->route('customers.index')->with('success', 'Customer restored successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('customers.index')->with('error', 'Customer restoration failed');
+        }
+    }
+
+    
+    public function restoreAllCustomer(){
+        Customer::withTrashed()->restore();
+
+        return redirect()->route('customers.index')->with('success', 'All customers restored successfully');
+    }
 }
