@@ -33,6 +33,10 @@ Route::put('doctors/{doctor}/restore', [DoctorController::class, 'restoreDoctor'
 Route::get('doctors/deleted', [DoctorController::class, 'deletedDoctors'])->name('doctors.deleted');
 Route::resource('doctors', DoctorController::class);
 
+
+Route::put('books/{book}/restore', [BookController::class, 'restoreBook'])->name('books.restore');
+Route::put('/books/restore-all', [BookController::class, 'restoreAllBook'])->name('books.restoreAll');
+Route::get('books/deleted', [BookController::class, 'deletedBooks'])->name('books.deleted');
 Route::resource('books', BookController::class);
 
 Route::put('cars/{car}/restore', [CarController::class, 'restoreCar'])->name('cars.restore');

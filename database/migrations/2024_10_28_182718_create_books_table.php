@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('author')->nullable(); // Allow NULL values for the author column
             $table->year('published_year');
             $table->string('genre', 100);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

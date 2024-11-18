@@ -15,14 +15,23 @@ Books
         @endif
     <h2 class="text-center fw-bold">Books</h2>
     <div class="d-flex align-items-center justify-content-between">
-            <form method="GET" action="{{ route('books.index') }}" class="d-flex">
+            <!-- <form method="GET" action="{{ route('books.index') }}" class="d-flex">
                 <input type="text" class="form-control me-2" name="title" placeholder="Book Title" value="{{ request('name') }}">
-                <input type="text" class="form-control me-2" name="genre" placeholder="Genre" value="{{ request('genre') }}">
-                <button type="submit" class="btn btn-secondary">Filter</button>
-            </form>
+                <button type="submit" class="btn btn-dark">Search</button>
+            </form> -->
+            <form class="row g-3 justify-content-end" action="{{route('books.index')}}" method="GET">
+                        <div class="col-auto">
+                            <input class="form-control" type="text" name="title" id="titlte" value="{{ request('title') }}" placeholder="Book Titlte">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-dark">Search</button>
+                        </div>
+                    </form>
             <div>
                 <a href="{{ route('books.create') }}" class="btn btn-dark">Create Book</a>
+                <a href="{{ route('books.deleted') }}" class="btn btn-dark">Show Deleted Book</a>
             </div>
+           
         </div>
         <div class="table-responsive">
         <table class="table table-hover text-nowrap mt-5 table-centered">
@@ -44,12 +53,12 @@ Books
                     <td>{{ $book->published_year }}</td>
                     <td>{{ $book->genre }}</td>
                     <td class="d-flex gap-2">
-                        <a href="{{ route('books.show', $book->id) }}" class="btn btn-primary btn-sm">Show</a>
-                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{{ route('books.show', $book->id) }}" class="btn btn-outline-primary btn-sm">Show</a>
+                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-outline-warning btn-sm">Edit</a>
                         <form action="{{ route('books.destroy', $book->id) }}" method="post" onsubmit="return confirm('Are you sure want to delete this book?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
                         </form>
                     </td>
                 </tr>
