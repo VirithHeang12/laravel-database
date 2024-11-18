@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Cars\StoreRequest;
 use App\Http\Requests\Cars\UpdateRequest;
+use App\Imports\CarsImport;
 use App\Models\Car;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CarController extends Controller
 {
@@ -184,5 +186,31 @@ class CarController extends Controller
 
             return redirect()->route('cars.index')->with('error', 'Car restoration failed');
         }
+    }
+
+    /**
+     * Show the form for importing cars.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createImport()
+    {
+        return view('cars.import');
+    }
+
+    /**
+     * Import cars from Excel file.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function saveImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls'
+        ]);
+
+        Excel::import(new CarsImport, $request->file('file'));
+
+        return redirect()->route('cars.index')->with('success', 'Cars imported successfully');
     }
 }

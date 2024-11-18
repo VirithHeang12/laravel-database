@@ -15,6 +15,7 @@
 
     <h1 class="text-center fw-bold">{{ __('cars') }}</h1>
     <a href="{{ route('cars.create') }}" class="btn btn-dark">Create Car</a>
+    <a href="{{ route('cars.createImport') }}" class="btn btn-dark">Import Car</a>
     <a href="{{ route('cars.popular') }}" class="btn btn-dark">Popular Cars</a>
     <a href="{{ route('cars.deleted') }}" class="btn btn-dark">Show Deleted Cars</a>
     <form action="{{ route('cars.index') }}" method="GET">

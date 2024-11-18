@@ -40,6 +40,9 @@ Route::put('/books/restore-all', [BookController::class, 'restoreAllBook'])->nam
 Route::get('books/deleted', [BookController::class, 'deletedBooks'])->name('books.deleted');
 Route::resource('books', BookController::class);
 
+Route::get('cars/import', [CarController::class, 'createImport'])->name('cars.createImport');
+Route::post('cars/import', [CarController::class, 'saveImport'])->name('cars.saveImport');
+
 Route::put('cars/{car}/restore', [CarController::class, 'restoreCar'])->name('cars.restore');
 Route::get('cars/deleted', [CarController::class, 'deletedCars'])->name('cars.deleted');
 Route::resource('cars', CarController::class);
