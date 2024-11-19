@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SuppliersExport;
 use App\Http\Requests\Suppliers\StoreRequest;
 use App\Http\Requests\Suppliers\UpdateRequest;
 use App\Models\Supplier;
@@ -227,6 +228,15 @@ class SupplierController extends Controller
 
         $successes = $import->getSuccesses();
         $fails = $import->getFails();
+
+        if (count($fails) > 0) {
+            $export = new SuppliersExport;
+            $export->setFails(collect($fails));
+            $export->setSuccessesCount(count($successes));
+            $export->setFailsCount(count($fails));
+
+            return Excel::download($export, 'results.xlsx');
+        }
 
         return redirect()
             ->route('suppliers.index')
