@@ -5,8 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Suppliers\StoreRequest;
 use App\Http\Requests\Suppliers\UpdateRequest;
 use App\Models\Supplier;
+use App\Imports\SuppliersImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Excel as ExcelExcel;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 
 class SupplierController extends Controller
 {
@@ -141,7 +147,8 @@ class SupplierController extends Controller
     }
 
     // restore suppliers after they were removed
-    public function restoreSupplier($id){
+    public function restoreSupplier($id)
+    {
         $supplier = Supplier::withTrashed()->find($id);
 
         DB::beginTransaction();
@@ -156,14 +163,73 @@ class SupplierController extends Controller
             DB::rollBack();
 
             return redirect()->route('suppliers.index')->with('error', 'Supplier restoration failed');
-        }}
-
-    
-        public function restoreAllSupplier(){
-            Supplier::withTrashed()->restore();
-
-            return redirect()->route('suppliers.index')->with('success', 'All suppliers restored successfully');
         }
+    }
+
+
+    public function restoreAllSupplier()
+    {
+        Supplier::withTrashed()->restore();
+
+        return redirect()->route('suppliers.index')->with('success', 'All suppliers restored successfully');
+    }
+
+
+    /**
+     * Show the form for importing supplier
+     *  @return \Illuminate\Http\Response
+     */
+    public function createImport()
+    {
+        return view('suppliers.import');
+    }
+
+    /**
+     * Import supplier from excel file
+     * @return \Illuminate\Http\Response
+     */
+
+    //  public function saveImport(Request $request){
+    //     $request->validate([
+    //         'file' => 'required|mimes:xlsx,xls'
+    //     ]);
+
+    //     $import = new SuppliersImport;
+
+    //     Excel::import($import, $request->file('file'));
+
+    //     $successes       = $import->getSuccesses();
+    //     $fails          = $import->getFails();
+
+    //     if (count($fails) > 0) {
+    //         $export = new CarsExport;
+    //         $export->setFails(collect($fails));
+    //         $export->setSuccessesCount(count($sucesses));
+    //         $export->setFailsCount(count($fails));
+
+    //         return Excel::download($export, 'results.xlsx');
+    //     }
+
+    //     return redirect()
+    //         ->route('suppliers.index')
+    //         ->with('success', 'Imported ' . count($successes) . ' suppliers successfully');
+    // }
+
+    public function saveImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls'
+        ]);
+
+        $import = new SuppliersImport;
+
+        Excel::import($import, $request->file('file'));
+
+        $successes = $import->getSuccesses();
+        $fails = $import->getFails();
+
+        return redirect()
+            ->route('suppliers.index')
+            ->with('success', 'Successfully imported ' . count($successes) . ' suppliers');
+    }
 }
-
-

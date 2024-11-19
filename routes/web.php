@@ -20,6 +20,8 @@ Route::resource('users', UserController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
 
+Route::get('suppliers/import', [SupplierController::class, 'createImport'])->name('suppliers.createImport');
+Route::post('suppliers/import', [SupplierController::class, 'saveImport'])->name('suppliers.saveImport');
 Route::put('suppliers/{supplier}/restore', [SupplierController::class, 'restoreSupplier'])->name('suppliers.restore');
 Route::put('/suppliers/restore-all', [SupplierController::class, 'restoreAllSupplier'])->name('suppliers.restoreAll');
 Route::get('suppliers/deleted', [SupplierController::class, 'deletedSuppliers'])->name('suppliers.deleted');
