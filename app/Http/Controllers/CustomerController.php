@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CustomersExport;
 use App\Http\Requests\Customers\StoreRequest;
 use App\Http\Requests\Customers\UpdateRequest;
+use App\Imports\CustomersImport;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\App;
 
 class CustomerController extends Controller
 {
@@ -167,5 +171,47 @@ class CustomerController extends Controller
         Customer::withTrashed()->restore();
 
         return redirect()->route('customers.index')->with('success', 'All customers restored successfully');
+    }
+    
+    /**
+     * Show the form for importing cars.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createImport()
+    {
+        return view('customers.import');
+    }
+
+    /**
+     * Import cars from Excel file.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function saveImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls'
+        ]);
+
+        $import = new CustomersImport;
+
+        Excel::import($import, $request->file('file'));
+
+        $sucesses       = $import->getSucesses();
+        $fails          = $import->getFails();
+
+        if (count($fails) > 0) {
+            $export = new CustomersExport;
+            $export->setFails(collect($fails));
+            $export->setSuccessesCount(count($sucesses));
+            $export->setFailsCount(count($fails));
+
+            return Excel::download($export, 'results.xlsx');
+        }
+
+        return redirect()
+            ->route('customers.index')
+            ->with('success', 'Imported ' . count($sucesses) . ' customers successfully');
     }
 }
