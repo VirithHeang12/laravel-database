@@ -10,6 +10,9 @@ use Maatwebsite\Excel\Concerns\WithStartRow;
 
 class CarsImport implements ToCollection, WithStartRow
 {
+    private $sucesses = [];
+    private $fails = [];
+
     public function startRow(): int
     {
         return 2;
@@ -31,9 +34,28 @@ class CarsImport implements ToCollection, WithStartRow
                 ]);
 
                 DB::commit();
+                $this->sucesses[] = $row;
             } catch (\Exception $e) {
                 DB::rollBack();
+                $this->fails[]  = [
+                    $row[0],
+                    $row[1],
+                    $row[2],
+                    $row[3],
+                    $row[4],
+                    $e->getMessage()
+                ];
             }
         }
+    }
+
+    public function getSucesses(): array
+    {
+        return $this->sucesses;
+    }
+
+    public function getFails(): array
+    {
+        return $this->fails;
     }
 }
