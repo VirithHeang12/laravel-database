@@ -7,8 +7,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\ImportFailed;
 
-class ProductsImport implements ToModel, WithChunkReading, ShouldQueue, WithBatchInserts
+class ProductsImport implements ToModel, WithChunkReading, ShouldQueue, WithBatchInserts, WithEvents
 {
     /**
     * @param array $row
@@ -31,7 +33,7 @@ class ProductsImport implements ToModel, WithChunkReading, ShouldQueue, WithBatc
      */
     public function chunkSize(): int
     {
-        return 100;
+        return 1000;
     }
 
     /**
@@ -39,6 +41,15 @@ class ProductsImport implements ToModel, WithChunkReading, ShouldQueue, WithBatc
      */
     public function batchSize(): int
     {
-        return 100;
+        return 1000;
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            ImportFailed::class => function(ImportFailed $event) {
+                return response()->redirectTo('products.index')->with('error', 'Import failed');
+            },
+        ];
     }
 }
