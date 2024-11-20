@@ -23,11 +23,15 @@ Route::get('products/import', [ProductController::class, 'createImport'])->name(
 Route::post('products/import', [ProductController::class, 'saveImport'])->name('products.saveImport');
 Route::resource('products', ProductController::class);
 
+Route::get('suppliers/import', [SupplierController::class, 'createImport'])->name('suppliers.createImport');
+Route::post('suppliers/import', [SupplierController::class, 'saveImport'])->name('suppliers.saveImport');
 Route::put('suppliers/{supplier}/restore', [SupplierController::class, 'restoreSupplier'])->name('suppliers.restore');
 Route::put('/suppliers/restore-all', [SupplierController::class, 'restoreAllSupplier'])->name('suppliers.restoreAll');
 Route::get('suppliers/deleted', [SupplierController::class, 'deletedSuppliers'])->name('suppliers.deleted');
 Route::resource('suppliers', SupplierController::class);
 
+Route::get('customers/import', [CustomerController::class, 'createImport'])->name('customers.createImport');
+Route::post('customers/import', [CustomerController::class, 'saveImport'])->name('customers.saveImport');
 Route::put('customers/{customer}/restore', [CustomerController::class, 'restoreCustomer'])->name('customers.restore');
 Route::put('/customers/restore-all', [CustomerController::class, 'restoreAllCustomer'])->name('customers.restoreAll');
 Route::get('customers/deleted', [CustomerController::class, 'deletedCustomers'])->name('customers.deleted');
