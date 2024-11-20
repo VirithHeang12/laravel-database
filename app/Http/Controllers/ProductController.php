@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductsExport;
+use App\Imports\ProductsImport;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -131,5 +134,44 @@ class ProductController extends Controller
 
             return redirect()->route('products.index')->with('error', 'Product deletion failed');
         }
+    }
+
+    /**
+    * Show the form for importing products.
+    * @return \Illuminate\Http\Response
+    */
+    public function createImport()
+    {
+        return view('products.import');
+    }
+
+    /**
+     * Import products from excel file.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveImport(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        $import = new ProductsImport;
+
+        Excel::queueImport($import, $request->file('file'));
+
+        return redirect()->route('products.index')->with('success', 'Products imported successfully');
+    }
+
+    /**
+     * Export products to Excel file.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export()
+    {
+        return Excel::download(new ProductsExport, 'products.xlsx');
     }
 }

@@ -18,8 +18,14 @@ Route::get('/', function () {
 Route::resource('users', UserController::class);
 
 Route::resource('categories', CategoryController::class);
+
+Route::get('products/import', [ProductController::class, 'createImport'])->name('products.createImport');
+Route::post('products/import', [ProductController::class, 'saveImport'])->name('products.saveImport');
+Route::get('products/export', [ProductController::class, 'export'])->name('products.export');
 Route::resource('products', ProductController::class);
 
+Route::get('suppliers/import', [SupplierController::class, 'createImport'])->name('suppliers.createImport');
+Route::post('suppliers/import', [SupplierController::class, 'saveImport'])->name('suppliers.saveImport');
 Route::put('suppliers/{supplier}/restore', [SupplierController::class, 'restoreSupplier'])->name('suppliers.restore');
 Route::put('/suppliers/restore-all', [SupplierController::class, 'restoreAllSupplier'])->name('suppliers.restoreAll');
 Route::get('suppliers/deleted', [SupplierController::class, 'deletedSuppliers'])->name('suppliers.deleted');

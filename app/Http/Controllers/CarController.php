@@ -215,20 +215,24 @@ class CarController extends Controller
 
         Excel::import($import, $request->file('file'));
 
-        $sucesses       = $import->getSucesses();
-        $fails          = $import->getFails();
-
-        if (count($fails) > 0) {
-            $export = new CarsExport;
-            $export->setFails(collect($fails));
-            $export->setSuccessesCount(count($sucesses));
-            $export->setFailsCount(count($fails));
-
-            return Excel::download($export, 'results.xlsx');
-        }
-
         return redirect()
             ->route('cars.index')
-            ->with('success', 'Imported ' . count($sucesses) . ' cars successfully');
+            ->with('success', 'Imported ' . count($import->getSucesses()) . ' cars successfully');
+
+        // $sucesses       = $import->getSucesses();
+        // $fails          = $import->getFails();
+
+        // if (count($fails) > 0) {
+        //     $export = new CarsExport;
+        //     $export->setFails(collect($fails));
+        //     $export->setSuccessesCount(count($sucesses));
+        //     $export->setFailsCount(count($fails));
+
+        //     return Excel::download($export, 'results.xlsx');
+        // }
+
+        // return redirect()
+        //     ->route('cars.index')
+        //     ->with('success', 'Imported ' . count($sucesses) . ' cars successfully');
     }
 }
