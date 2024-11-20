@@ -38,6 +38,8 @@ Route::put('/customers/restore-all', [CustomerController::class, 'restoreAllCust
 Route::get('customers/deleted', [CustomerController::class, 'deletedCustomers'])->name('customers.deleted');
 Route::resource('customers', CustomerController::class);
 
+Route::get('doctors/import', [DoctorController::class, 'createImport'])->name('doctors.createImport');
+Route::post('doctors/import', [DoctorController::class, 'saveImport'])->name('doctors.saveImport');
 Route::put('doctors/{doctor}/restore', [DoctorController::class, 'restoreDoctor'])->name('doctors.restore');
 Route::post('doctors/restore-all', [DoctorController::class, 'restoreAllDoctors'])->name('doctors.restoreAll');
 Route::get('doctors/deleted', [DoctorController::class, 'deletedDoctors'])->name('doctors.deleted');
