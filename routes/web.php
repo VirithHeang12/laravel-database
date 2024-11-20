@@ -18,6 +18,9 @@ Route::get('/', function () {
 Route::resource('users', UserController::class);
 
 Route::resource('categories', CategoryController::class);
+
+Route::get('products/import', [ProductController::class, 'createImport'])->name('products.createImport');
+Route::post('products/import', [ProductController::class, 'saveImport'])->name('products.saveImport');
 Route::resource('products', ProductController::class);
 
 Route::put('suppliers/{supplier}/restore', [SupplierController::class, 'restoreSupplier'])->name('suppliers.restore');
