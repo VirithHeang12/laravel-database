@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductsExport;
 use App\Imports\ProductsImport;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -162,5 +163,15 @@ class ProductController extends Controller
         Excel::queueImport($import, $request->file('file'));
 
         return redirect()->route('products.index')->with('success', 'Products imported successfully');
+    }
+
+    /**
+     * Export products to Excel file.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export()
+    {
+        return Excel::download(new ProductsExport, 'products.xlsx');
     }
 }

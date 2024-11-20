@@ -16,6 +16,7 @@ Products
     <h1 class="text-center fw-bold">Products</h1>
     <a href="{{ route('products.create') }}" class="btn btn-dark">Create Product</a>
     <a href="{{ route('products.createImport') }}" class="btn btn-dark">Import Products</a>
+    <a href="{{ route('products.export') }}" class="btn btn-dark">Export Products</a>
 
     <table class="table table-striped mt-4">
         <thead class="thead-dark">

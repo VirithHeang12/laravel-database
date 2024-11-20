@@ -21,6 +21,7 @@ Route::resource('categories', CategoryController::class);
 
 Route::get('products/import', [ProductController::class, 'createImport'])->name('products.createImport');
 Route::post('products/import', [ProductController::class, 'saveImport'])->name('products.saveImport');
+Route::get('products/export', [ProductController::class, 'export'])->name('products.export');
 Route::resource('products', ProductController::class);
 
 Route::get('suppliers/import', [SupplierController::class, 'createImport'])->name('suppliers.createImport');
