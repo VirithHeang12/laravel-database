@@ -22,6 +22,7 @@ Route::resource('categories', CategoryController::class);
 Route::get('products/import', [ProductController::class, 'createImport'])->name('products.createImport');
 Route::post('products/import', [ProductController::class, 'saveImport'])->name('products.saveImport');
 Route::get('products/export', [ProductController::class, 'export'])->name('products.export');
+Route::get('products/export-view', [ProductController::class, 'exportView'])->name('products.exportView');
 Route::get('products/logs', [ProductController::class, 'logs'])->name('products.logs');
 Route::resource('products', ProductController::class);
 

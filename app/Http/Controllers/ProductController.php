@@ -164,7 +164,17 @@ class ProductController extends Controller
             ->performedOn(new Product)
             ->log('Exported products to Excel file');
 
-        return Excel::download(new ProductsExport, 'products.xlsx');
+        return Excel::download(new ProductsExport, 'products.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    }
+
+    /**
+     * Export products using FromView.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function exportView(): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        return Excel::download(new ProductsExport, 'products.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
     /**
