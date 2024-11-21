@@ -71,6 +71,7 @@ class SuppliersExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return $this->fails;
+        // return $this->fails;
+        return Supplier::all();
     }
 }

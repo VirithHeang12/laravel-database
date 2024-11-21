@@ -227,19 +227,30 @@ class SupplierController extends Controller
         Excel::import($import, $request->file('file'));
 
         $successes = $import->getSuccesses();
-        $fails = $import->getFails();
+        // $fails = $import->getFails();
 
-        if (count($fails) > 0) {
-            $export = new SuppliersExport;
-            $export->setFails(collect($fails));
-            $export->setSuccessesCount(count($successes));
-            $export->setFailsCount(count($fails));
+        // if (count($fails) > 0) {
+        //     $export = new SuppliersExport;
+        //     $export->setFails(collect($fails));
+        //     $export->setSuccessesCount(count($successes));
+        //     $export->setFailsCount(count($fails));
 
-            return Excel::download($export, 'results.xlsx');
-        }
+        //     return Excel::download($export, 'results.xlsx');
+        // }
 
         return redirect()
             ->route('suppliers.index')
             ->with('success', 'Successfully imported ' . count($successes) . ' suppliers');
+    }
+
+
+    /**
+     * Export products to Excel file.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export()
+    {
+        return Excel::download(new SuppliersExport, 'suppliers.xlsx');
     }
 }
