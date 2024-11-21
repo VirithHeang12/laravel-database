@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Activitylog\Models\Activity;
 
 class ProductController extends Controller
 {
@@ -39,19 +40,11 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try {
-            // Product::create([
-            //     'name'          => $request->name,
-            //     'description'   => $request->description,
-            //     'price'         => $request->price,
-            //     'category_id'   => 1,
-            // ]);
-            DB::table('products')->insert([
+            Product::create([
                 'name'          => $request->name,
                 'description'   => $request->description,
                 'price'         => $request->price,
                 'category_id'   => 1,
-                'created_at'    => now(),
-                'updated_at'    => now(),
             ]);
 
             DB::commit();
@@ -60,7 +53,7 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return redirect()->route('products.index')->with('error', 'Product creation failed');
+            return redirect()->route('products.index')->with('error', $e->getMessage());
         }
     }
 
@@ -92,17 +85,11 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try {
-            // $product->update([
-            //     'name'          => $request->name,
-            //     'description'   => $request->description,
-            //     'price'         => $request->price,
-            // ]);
-
-            DB::table('products')->where('id', $product->id)->update([
+            $product->update([
                 'name'          => $request->name,
                 'description'   => $request->description,
                 'price'         => $request->price,
-                'updated_at'    => now(),
+                'category_id'   => 1,
             ]);
 
             DB::commit();
@@ -172,6 +159,25 @@ class ProductController extends Controller
      */
     public function export()
     {
+        activity()
+            ->causedByAnonymous()
+            ->performedOn(new Product)
+            ->log('Exported products to Excel file');
+
         return Excel::download(new ProductsExport, 'products.xlsx');
+    }
+
+    /**
+     * Display all logs.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function logs(): \Illuminate\View\View
+    {
+        $logs = Activity::all();
+
+        return view('products.logs', [
+            'logs'  => $logs
+        ]);
     }
 }

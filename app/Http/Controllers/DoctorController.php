@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Doctor;
 use App\Http\Requests\Doctors\StoreRequest;
 use App\Http\Requests\Doctors\UpdateRequest;
+use App\Imports\Doctors\DoctorsImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\DoctorsExport;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 
 class DoctorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $doctors = Doctor::when($request->specialty, function ($query, $specialty) {
@@ -26,17 +28,11 @@ class DoctorController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('doctors.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreRequest $request)
     {
         $validated = $request->validated();
@@ -66,9 +62,6 @@ class DoctorController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Doctor $doctor)
     {
         return view('doctors.show', [
@@ -76,9 +69,6 @@ class DoctorController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Doctor $doctor)
     {
         return view('doctors.edit', [
@@ -86,9 +76,6 @@ class DoctorController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateRequest $request, Doctor $doctor)
     {
         $validated = $request->validated();
@@ -109,10 +96,6 @@ class DoctorController extends Controller
         }
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Doctor $doctor)
     {
         DB::beginTransaction();
@@ -169,6 +152,58 @@ class DoctorController extends Controller
             DB::rollBack();
 
             return redirect()->route('doctors.index')->with('error', 'Failed to restore all doctors');
+        }
+    }
+
+    public function createImport()
+    {
+        return view('doctors.import');
+    }
+
+    public function saveImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls',
+        ]);
+
+        $filePath = $request->file('file');
+
+        $spreadsheet = IOFactory::load($filePath->getPathname());
+        $sheetCount = $spreadsheet->getSheetCount();
+
+        // Define specialties for each sheet
+        $sheetSpecialties = [
+            'Cardiology',   // Sheet 1
+            'Neurology',    // Sheet 2
+            'Pediatrics',   // Sheet 3
+            'Dermatology',  // Sheet 4
+        ];
+
+        // Trim specialties to match the sheet count
+        $sheetSpecialties = array_slice($sheetSpecialties, 0, $sheetCount);
+
+        $import = new DoctorsImport($sheetSpecialties);
+
+        try {
+            Excel::import($import, $filePath);
+
+            $successes = $import->getSuccesses();
+            $fails = $import->getFails();
+
+            if (count($fails) > 0) {
+                $export = new DoctorsExport();
+                $export->setFails(collect($fails));
+                $export->setSuccessesCount(count($successes));
+                $export->setFailsCount(count($fails));
+
+                return Excel::download($export, 'import_results.xlsx');
+            }
+
+            return redirect()
+                ->route('doctors.index')
+                ->with('success', 'Imported ' . count($successes) . ' doctors successfully.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'An error occurred during import: ' . $e->getMessage()]);
         }
     }
 }
