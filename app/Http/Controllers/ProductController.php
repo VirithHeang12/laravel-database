@@ -6,6 +6,7 @@ use App\Exports\ProductsExport;
 use App\Imports\ProductsImport;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Activitylog\Models\Activity;
@@ -18,6 +19,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
+
+        App::setLocale('km');
 
         return view('products.index', [
             'products' => $products
@@ -41,7 +44,10 @@ class ProductController extends Controller
 
         try {
             Product::create([
-                'name'          => $request->name,
+                'name'          => [
+                    'km'        => $request->name_km,
+                    'en'        => $request->name_en,
+                ],
                 'description'   => $request->description,
                 'price'         => $request->price,
                 'category_id'   => 1,
