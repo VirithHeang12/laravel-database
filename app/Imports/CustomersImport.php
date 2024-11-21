@@ -2,13 +2,13 @@
 
 namespace App\Imports;
 
-use App\Models\Car;
+use App\Models\Customer;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class CarsImport implements ToCollection, WithStartRow
+class CustomersImport implements ToCollection, WithStartRow
 {
     private $sucesses = [];
     private $fails = [];
@@ -25,12 +25,9 @@ class CarsImport implements ToCollection, WithStartRow
             DB::beginTransaction();
 
             try {
-                Car::create([
-                    'model'         => $row[0],
-                    'year'          => $row[1],
-                    'color'         => $row[2],
-                    'engine_type'   => $row[3],
-                    'price'         => $row[4]
+                Customer::create([
+                    'name'         => $row[0],
+                    'phone'          => $row[1]
                 ]);
 
                 DB::commit();
@@ -40,9 +37,6 @@ class CarsImport implements ToCollection, WithStartRow
                 $this->fails[]  = [
                     $row[0],
                     $row[1],
-                    $row[2],
-                    $row[3],
-                    $row[4],
                     $e->getMessage()
                 ];
             }

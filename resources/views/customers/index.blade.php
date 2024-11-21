@@ -14,11 +14,12 @@
     <div class="row">
         <div class="mx-auto">
             <div class="d-flex justify-content-between">
-                <div class="col-6 g-3">
+                <div class="col-12 col-md-6 g-3">
                     <a class="btn btn-dark" href="{{ route('customers.create') }}">Create Customer</a>
+                    <a class="btn btn-dark" href="{{ route('customers.createImport') }}">Import Customers</a>
                     <a class="btn btn-dark" href="{{ route('customers.deleted') }}">Show Deleted Customer</a>
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                     <form class="row g-3 justify-content-end" action="{{route('customers.index')}}" method="GET">
                         <div class="col-auto">
                             <input class="form-control" type="text" name="name" id="name" value="{{ request('name') }}" placeholder="Input name to search">

@@ -23,6 +23,9 @@
             <div>
                 <a href="{{ route('suppliers.create') }}" class="btn btn-dark">Create Supplier</a>
             </div>
+            <div>
+                <a href="{{ route('suppliers.createImport') }}" class="btn btn-dark">Import Supplier</a>
+            </div>
         </div>
 
 

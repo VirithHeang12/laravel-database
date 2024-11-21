@@ -18,18 +18,29 @@ Route::get('/', function () {
 Route::resource('users', UserController::class);
 
 Route::resource('categories', CategoryController::class);
+
+Route::get('products/import', [ProductController::class, 'createImport'])->name('products.createImport');
+Route::post('products/import', [ProductController::class, 'saveImport'])->name('products.saveImport');
+Route::get('products/export', [ProductController::class, 'export'])->name('products.export');
+Route::get('products/logs', [ProductController::class, 'logs'])->name('products.logs');
 Route::resource('products', ProductController::class);
 
+Route::get('suppliers/import', [SupplierController::class, 'createImport'])->name('suppliers.createImport');
+Route::post('suppliers/import', [SupplierController::class, 'saveImport'])->name('suppliers.saveImport');
 Route::put('suppliers/{supplier}/restore', [SupplierController::class, 'restoreSupplier'])->name('suppliers.restore');
 Route::put('/suppliers/restore-all', [SupplierController::class, 'restoreAllSupplier'])->name('suppliers.restoreAll');
 Route::get('suppliers/deleted', [SupplierController::class, 'deletedSuppliers'])->name('suppliers.deleted');
 Route::resource('suppliers', SupplierController::class);
 
+Route::get('customers/import', [CustomerController::class, 'createImport'])->name('customers.createImport');
+Route::post('customers/import', [CustomerController::class, 'saveImport'])->name('customers.saveImport');
 Route::put('customers/{customer}/restore', [CustomerController::class, 'restoreCustomer'])->name('customers.restore');
 Route::put('/customers/restore-all', [CustomerController::class, 'restoreAllCustomer'])->name('customers.restoreAll');
 Route::get('customers/deleted', [CustomerController::class, 'deletedCustomers'])->name('customers.deleted');
 Route::resource('customers', CustomerController::class);
 
+Route::get('doctors/import', [DoctorController::class, 'createImport'])->name('doctors.createImport');
+Route::post('doctors/import', [DoctorController::class, 'saveImport'])->name('doctors.saveImport');
 Route::put('doctors/{doctor}/restore', [DoctorController::class, 'restoreDoctor'])->name('doctors.restore');
 Route::post('doctors/restore-all', [DoctorController::class, 'restoreAllDoctors'])->name('doctors.restoreAll');
 Route::get('doctors/deleted', [DoctorController::class, 'deletedDoctors'])->name('doctors.deleted');
