@@ -8,8 +8,12 @@ Create Product
 <form action="{{ route('products.store') }}" method="post" class="p-4">
     @csrf
     <div class="mb-3">
-        <label for="name" class="form-label">Product Name</label>
-        <input type="text" name="name" id="name" class="form-control" required>
+        <label for="name_km" class="form-label">Product Khmer Name</label>
+        <input type="text" name="name_km" id="name_km" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="name_en" class="form-label">Product English Name</label>
+        <input type="text" name="name_en" id="name_en" class="form-control" required>
     </div>
     <div class="mb-3">
         <label for="description" class="form-label">Product Description</label>

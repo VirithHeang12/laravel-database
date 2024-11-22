@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             // DoctorSeeder::class,
             // BookSeeder::class,
-            // CarSeeder::class
+            //CarSeeder::class
             // SupplierSeeder::class,
         ]);
     }
