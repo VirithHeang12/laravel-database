@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DoctorsExport;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Spatie\Activitylog\Models\Activity;
+
 
 
 class DoctorController extends Controller
@@ -205,5 +207,30 @@ class DoctorController extends Controller
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'An error occurred during import: ' . $e->getMessage()]);
         }
+    }
+
+
+
+    public function export()
+    {
+        activity()
+            ->causedByAnonymous()
+            ->performedOn(new Doctor)
+            ->log('Exported doctors to Excel file');
+
+        return Excel::download(new DoctorsExport, 'doctors.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    }
+
+    public function exportView(): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        return Excel::download(new DoctorsExport, 'doctors.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    }
+    public function logs(): \Illuminate\View\View
+    {
+        $logs = Activity::all();
+
+        return view('doctors.logs', [
+            'logs'  => $logs
+        ]);
     }
 }
