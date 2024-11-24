@@ -29,6 +29,7 @@ Books
                     </form>
             <div>
                 <a href="{{ route('books.create') }}" class="btn btn-dark">Create Book</a>
+                <a href="{{ route('books.createImport') }}" class="btn btn-dark">Import Book</a>
                 <a href="{{ route('books.deleted') }}" class="btn btn-dark">Show Deleted Book</a>
             </div>
            

@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BooksExport;
 use App\Http\Requests\Books\StoreRequest;
 use App\Http\Requests\Books\UpdateRequest;
 use App\Models\Book;
+use App\Imports\BooksImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
+use Maatwebsite\Excel\Excel as ExcelExcel;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 
 class BookController extends Controller
@@ -14,7 +20,7 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-public function index(Request $request)
+    public function index(Request $request)
     {
         // $books = Book::when($request->genre, function($query, $genere){
         //     return $query->where('genre', '=', $genre);
@@ -105,10 +111,10 @@ public function index(Request $request)
 
         try {
             $book->update([
-                'title'    => $request->input('title'),
-                'author'   => $request->input('author'),
-                'published_year'   => $request->input('published_year'),
-                'genre' => $request->input('genre'),
+                'title'             => $request->input('title'),
+                'author'            => $request->input('author'),
+                'published_year'    => $request->input('published_year'),
+                'genre'             => $request->input('genre'),
             ]);
 
             DB::commit();
@@ -158,7 +164,8 @@ public function index(Request $request)
      }
  
      // restore books after they were removed
-     public function restoreBook($id){
+     public function restoreBook($id)
+     {
          $book = Book::withTrashed()->find($id);
  
          DB::beginTransaction();
@@ -173,12 +180,56 @@ public function index(Request $request)
              DB::rollBack();
  
              return redirect()->route('books.index')->with('error', 'Book restoration failed');
-         }}
+         }
+     }
  
      
-         public function restoreAllBook(){
+     public function restoreAllBook()
+     {
              Book::withTrashed()->restore();
  
              return redirect()->route('books.index')->with('success', 'All books restored successfully');
-         }
+     }
+
+    /**
+     * Show the form for importing books.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createImport()
+    {
+        return view('books.import');
+    }
+
+    /**
+     * Import books from Excel file.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function saveImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls'
+        ]);
+
+        $import = new BooksImport;
+
+        Excel::import($import, $request->file('file'));
+
+        $successes = $import->getSuccesses();
+        $fails = $import->getFails();
+
+        if (count($fails) > 0) {
+            $export = new BooksExport;
+            $export->setFails(collect($fails));
+            $export->setSuccessesCount(count($successes));
+            $export->setFailsCount(count($fails));
+
+            return Excel::download($export, 'results.xlsx');
+        }
+
+        return redirect()
+            ->route('books.index')
+            ->with('success', 'Successfully imported ' . count($successes) . ' books');
+    }
 }
