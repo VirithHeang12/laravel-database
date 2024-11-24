@@ -28,6 +28,8 @@ Route::resource('products', ProductController::class);
 
 Route::get('suppliers/import', [SupplierController::class, 'createImport'])->name('suppliers.createImport');
 Route::post('suppliers/import', [SupplierController::class, 'saveImport'])->name('suppliers.saveImport');
+Route::get('suppliers/export', [SupplierController::class, 'export'])->name('suppliers.export');
+Route::get('suppliers/export-view', [SupplierController::class, 'exportView'])->name('suppliers.exportView');
 Route::put('suppliers/{supplier}/restore', [SupplierController::class, 'restoreSupplier'])->name('suppliers.restore');
 Route::put('/suppliers/restore-all', [SupplierController::class, 'restoreAllSupplier'])->name('suppliers.restoreAll');
 Route::get('suppliers/deleted', [SupplierController::class, 'deletedSuppliers'])->name('suppliers.deleted');
@@ -42,6 +44,9 @@ Route::resource('customers', CustomerController::class);
 
 Route::get('doctors/import', [DoctorController::class, 'createImport'])->name('doctors.createImport');
 Route::post('doctors/import', [DoctorController::class, 'saveImport'])->name('doctors.saveImport');
+Route::get('doctors/export', [DoctorController::class, 'export'])->name('doctors.export');
+
+Route::get('doctors/export-view', [DoctorController::class, 'exportView'])->name('doctors.exportView');
 Route::put('doctors/{doctor}/restore', [DoctorController::class, 'restoreDoctor'])->name('doctors.restore');
 Route::post('doctors/restore-all', [DoctorController::class, 'restoreAllDoctors'])->name('doctors.restoreAll');
 Route::get('doctors/deleted', [DoctorController::class, 'deletedDoctors'])->name('doctors.deleted');

@@ -19,12 +19,23 @@
                 <button type="submit" class="btn btn-secondary">Filter</button>
 
             </form>
-            <a href="{{ route('suppliers.deleted') }}" class="btn btn-dark">Show Deleted Supplier</a>
+
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-5">
             <div>
                 <a href="{{ route('suppliers.create') }}" class="btn btn-dark">Create Supplier</a>
             </div>
             <div>
+                <a href="{{ route('suppliers.deleted') }}" class="btn btn-dark">Show Deleted Supplier</a>
+            </div>
+            <div>
                 <a href="{{ route('suppliers.createImport') }}" class="btn btn-dark">Import Supplier</a>
+            </div>
+            <div>
+                <a href="{{ route('suppliers.export') }}" class="btn btn-dark">Export Supplier</a>
+            </div>
+            <div>
+                <a href="{{ route('suppliers.exportView') }}" class="btn btn-dark">Export View Supplier</a>
             </div>
         </div>
 

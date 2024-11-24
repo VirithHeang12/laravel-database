@@ -6,8 +6,13 @@ use App\Models\Supplier;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromView;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\WithCustomStartCell;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class SuppliersExport implements FromCollection, WithHeadings
+class SuppliersExport implements FromView, WithCustomStartCell
 {
     private Collection $fails;
     private int $successesCount = 0;
@@ -50,27 +55,57 @@ class SuppliersExport implements FromCollection, WithHeadings
         $this->fails = $fails;
     }
 
-    /**
-     * WithHeadings
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function headings(): array
-    {
-        return [
-            '#',
-            'Successes',
-            "$this->successesCount",
-            'Fails',
-            "$this->failsCount",
-        ];
-    }
+    // /**
+    //  * WithHeadings
+    //  *
+    //  * @return \Illuminate\Support\Collection
+    //  */
+    // public function headings(): array
+    // {
+    //     return [
+    //         '#',
+    //         'Successes',
+    //         "$this->successesCount",
+    //         'Fails',
+    //         "$this->failsCount",
+    //     ];
+    // }
+
+    // /**
+    // * @return \Illuminate\Support\Collection
+    // */
+    // public function collection()
+    // {
+    //     // return $this->fails;
+    //     return Supplier::all();
+    // }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function view(): View
     {
-        return $this->fails;
+        $suppliers = Supplier::all();
+
+        $emailCategories = $suppliers->groupBy(function ($supplier) {
+            $domain = explode('.', substr(strrchr($supplier->email, "@"), 1))[1] ?? 'unknown';
+            return $domain;
+        })->map->count();
+
+        return view('suppliers.export', [
+            'emailCategories' => $emailCategories
+        ]);
     }
+
+
+    /**
+     * @return string
+     */
+    public function startCell(): string
+    {
+        return 'B2';
+    }
+
+
+
 }
