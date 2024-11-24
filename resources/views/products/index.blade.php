@@ -17,6 +17,8 @@ Products
     <a href="{{ route('products.create') }}" class="btn btn-dark">Create Product</a>
     <a href="{{ route('products.createImport') }}" class="btn btn-dark">Import Products</a>
     <a href="{{ route('products.export') }}" class="btn btn-dark">Export Products</a>
+    <a href="{{ route('products.exportView') }}" class="btn btn-dark">Export Products from View</a>
+
     <a href="{{ route('products.logs') }}" class="btn btn-dark">Product Logs</a>
 
     <table class="table table-striped mt-4">

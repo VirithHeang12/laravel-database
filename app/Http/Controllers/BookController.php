@@ -26,7 +26,7 @@ class BookController extends Controller
         //     return $query->where('genre', '=', $genre);
         // })->when($request->title, function($query, $title){
         //     return $query->where('title', 'like', '%' . $title . '%');
-        $books = Book::when($request->title, function($query, $title){
+        $books = Book::when($request->title, function ($query, $title) {
             return $query->where('title', 'like', '%' . $title . '%');
         })->paginate(10)->withQueryString();
 
@@ -62,13 +62,13 @@ class BookController extends Controller
             Book::updateOrCreate(
                 [
                     'title' => $request['title']
-                ], 
+                ],
                 [
                     'author'          => $request['author']
-                ], 
+                ],
                 [
                     'published_year'          => $request['published_year']
-                ], 
+                ],
                 [
                     'genre'          => $request['genre']
                 ]
@@ -147,49 +147,49 @@ class BookController extends Controller
         }
     }
 
-     /**
+    /**
      * Display deleted Books.
      *
      * @return \Illuminate\Http\Response
      *
      */
 
-     public function deletedBooks()
-     {
-         $deletedBooks = Book::onlyTrashed()->get();
- 
-         return view('books.deleted-books', [
-             'books' => $deletedBooks
-         ]);
-     }
- 
-     // restore books after they were removed
-     public function restoreBook($id)
-     {
-         $book = Book::withTrashed()->find($id);
- 
-         DB::beginTransaction();
- 
-         try {
-             $book->restore();
- 
-             DB::commit();
- 
-             return redirect()->route('books.index')->with('success', 'Book restored successfully');
-         } catch (\Exception $e) {
-             DB::rollBack();
- 
-             return redirect()->route('books.index')->with('error', 'Book restoration failed');
-         }
-     }
- 
-     
-     public function restoreAllBook()
-     {
-             Book::withTrashed()->restore();
- 
-             return redirect()->route('books.index')->with('success', 'All books restored successfully');
-     }
+    public function deletedBooks()
+    {
+        $deletedBooks = Book::onlyTrashed()->get();
+
+        return view('books.deleted-books', [
+            'books' => $deletedBooks
+        ]);
+    }
+
+    // restore books after they were removed
+    public function restoreBook($id)
+    {
+        $book = Book::withTrashed()->find($id);
+
+        DB::beginTransaction();
+
+        try {
+            $book->restore();
+
+            DB::commit();
+
+            return redirect()->route('books.index')->with('success', 'Book restored successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('books.index')->with('error', 'Book restoration failed');
+        }
+    }
+
+
+    public function restoreAllBook()
+    {
+        Book::withTrashed()->restore();
+
+        return redirect()->route('books.index')->with('success', 'All books restored successfully');
+    }
 
     /**
      * Show the form for importing books.
@@ -217,19 +217,39 @@ class BookController extends Controller
         Excel::import($import, $request->file('file'));
 
         $successes = $import->getSuccesses();
-        $fails = $import->getFails();
+        // $fails = $import->getFails();
 
-        if (count($fails) > 0) {
-            $export = new BooksExport;
-            $export->setFails(collect($fails));
-            $export->setSuccessesCount(count($successes));
-            $export->setFailsCount(count($fails));
+        // if (count($fails) > 0) {
+        //     $export = new BooksExport;
+        //     $export->setFails(collect($fails));
+        //     $export->setSuccessesCount(count($successes));
+        //     $export->setFailsCount(count($fails));
 
-            return Excel::download($export, 'results.xlsx');
-        }
+        //     return Excel::download($export, 'results.xlsx');
+        // }
 
         return redirect()
             ->route('books.index')
             ->with('success', 'Successfully imported ' . count($successes) . ' books');
+    }
+
+    /**
+     * Export products to Excel file.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export()
+    {
+        return Excel::download(new BooksExport, 'books.xlsx');
+    }
+
+    /**
+     * Export products using FromView.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function exportView(): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        return Excel::download(new BooksExport, 'books.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }

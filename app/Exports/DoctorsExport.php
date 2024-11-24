@@ -2,11 +2,18 @@
 
 namespace App\Exports;
 
+use App\Models\Doctor;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 
-class DoctorsExport implements FromCollection, WithHeadings
+
+class DoctorsExport implements FromView, WithCustomStartCell
 {
     private Collection $fails;
     private int $successesCount = 0;
@@ -38,8 +45,33 @@ class DoctorsExport implements FromCollection, WithHeadings
         ];
     }
 
-    public function collection()
+    // public function collection()
+    // {
+    //     return $this->fails;
+    // }
+
+    //  public function query(): \Illuminate\Database\Eloquent\Builder
+    // {
+    //     return Doctor::query();
+    // }
+
+    public function view(): View
     {
-        return $this->fails;
+        // return view('doctors.export', [
+        //     'doctors' => Doctor::all()
+        // ]);
+        $specialties = Doctor::select('specialty', DB::raw('count(*) as count'))
+        ->groupBy('specialty')
+        ->get();
+
+        // Return the view with the data
+        return view('doctors.export', [
+            'specialties' => $specialties
+        ]);
+    }
+    public function startCell(): string
+    {
+        return 'B2';
     }
 }
+

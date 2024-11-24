@@ -22,11 +22,14 @@ Route::resource('categories', CategoryController::class);
 Route::get('products/import', [ProductController::class, 'createImport'])->name('products.createImport');
 Route::post('products/import', [ProductController::class, 'saveImport'])->name('products.saveImport');
 Route::get('products/export', [ProductController::class, 'export'])->name('products.export');
+Route::get('products/export-view', [ProductController::class, 'exportView'])->name('products.exportView');
 Route::get('products/logs', [ProductController::class, 'logs'])->name('products.logs');
 Route::resource('products', ProductController::class);
 
 Route::get('suppliers/import', [SupplierController::class, 'createImport'])->name('suppliers.createImport');
 Route::post('suppliers/import', [SupplierController::class, 'saveImport'])->name('suppliers.saveImport');
+Route::get('suppliers/export', [SupplierController::class, 'export'])->name('suppliers.export');
+Route::get('suppliers/export-view', [SupplierController::class, 'exportView'])->name('suppliers.exportView');
 Route::put('suppliers/{supplier}/restore', [SupplierController::class, 'restoreSupplier'])->name('suppliers.restore');
 Route::put('/suppliers/restore-all', [SupplierController::class, 'restoreAllSupplier'])->name('suppliers.restoreAll');
 Route::get('suppliers/deleted', [SupplierController::class, 'deletedSuppliers'])->name('suppliers.deleted');
@@ -41,6 +44,9 @@ Route::resource('customers', CustomerController::class);
 
 Route::get('doctors/import', [DoctorController::class, 'createImport'])->name('doctors.createImport');
 Route::post('doctors/import', [DoctorController::class, 'saveImport'])->name('doctors.saveImport');
+Route::get('doctors/export', [DoctorController::class, 'export'])->name('doctors.export');
+
+Route::get('doctors/export-view', [DoctorController::class, 'exportView'])->name('doctors.exportView');
 Route::put('doctors/{doctor}/restore', [DoctorController::class, 'restoreDoctor'])->name('doctors.restore');
 Route::post('doctors/restore-all', [DoctorController::class, 'restoreAllDoctors'])->name('doctors.restoreAll');
 Route::get('doctors/deleted', [DoctorController::class, 'deletedDoctors'])->name('doctors.deleted');
@@ -48,6 +54,8 @@ Route::resource('doctors', DoctorController::class);
 
 Route::get('books/import', [BookController::class, 'createImport'])->name('books.createImport');
 Route::post('books/import', [BookController::class, 'saveImport'])->name('books.saveImport');
+Route::get('books/export', [BookController::class, 'export'])->name('books.export');
+Route::get('books/export-view', [BookController::class, 'exportView'])->name('books.exportView');
 Route::put('books/{book}/restore', [BookController::class, 'restoreBook'])->name('books.restore');
 Route::put('/books/restore-all', [BookController::class, 'restoreAllBook'])->name('books.restoreAll');
 Route::get('books/deleted', [BookController::class, 'deletedBooks'])->name('books.deleted');
