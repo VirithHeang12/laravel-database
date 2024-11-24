@@ -29,6 +29,7 @@ Route::resource('products', ProductController::class);
 Route::get('suppliers/import', [SupplierController::class, 'createImport'])->name('suppliers.createImport');
 Route::post('suppliers/import', [SupplierController::class, 'saveImport'])->name('suppliers.saveImport');
 Route::get('suppliers/export', [SupplierController::class, 'export'])->name('suppliers.export');
+Route::get('suppliers/export-view', [SupplierController::class, 'exportView'])->name('suppliers.exportView');
 Route::put('suppliers/{supplier}/restore', [SupplierController::class, 'restoreSupplier'])->name('suppliers.restore');
 Route::put('/suppliers/restore-all', [SupplierController::class, 'restoreAllSupplier'])->name('suppliers.restoreAll');
 Route::get('suppliers/deleted', [SupplierController::class, 'deletedSuppliers'])->name('suppliers.deleted');

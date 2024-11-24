@@ -34,6 +34,9 @@
             <div>
                 <a href="{{ route('suppliers.export') }}" class="btn btn-dark">Export Supplier</a>
             </div>
+            <div>
+                <a href="{{ route('suppliers.exportView') }}" class="btn btn-dark">Export View Supplier</a>
+            </div>
         </div>
 
 

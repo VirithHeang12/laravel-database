@@ -253,4 +253,16 @@ class SupplierController extends Controller
     {
         return Excel::download(new SuppliersExport, 'suppliers.xlsx');
     }
+
+     /**
+     * Export products using FromView.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function exportView(): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        return Excel::download(new SuppliersExport, 'suppliers.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    }
+
+
 }
