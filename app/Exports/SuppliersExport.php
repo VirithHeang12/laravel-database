@@ -88,17 +88,15 @@ class SuppliersExport implements FromView, WithCustomStartCell
         $suppliers = Supplier::all();
 
         $emailCategories = $suppliers->groupBy(function ($supplier) {
-            $domain = substr(strrchr($supplier->email, "@"), 1);
-            return explode('.', $domain)[1] ?? 'unknown';
-        })->map(function ($group) {
-            return $group->count(); // Count suppliers in each group
-        });
+            $domain = explode('.', substr(strrchr($supplier->email, "@"), 1))[1] ?? 'unknown';
+            return $domain;
+        })->map->count();
 
         return view('suppliers.export', [
-            'suppliers' => $suppliers,
             'emailCategories' => $emailCategories
         ]);
     }
+
 
     /**
      * @return string
@@ -108,6 +106,6 @@ class SuppliersExport implements FromView, WithCustomStartCell
         return 'B2';
     }
 
-  
+
 
 }
