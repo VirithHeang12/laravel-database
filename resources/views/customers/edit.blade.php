@@ -13,8 +13,18 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
                 <br>
+                <label class="form-label" for="gender">Gender</label>
+                <select name="gender" id="gender" class="form-select">
+                    <option value="" disabled selected>Select gender here</option>
+                    <option value="Female" {{ old('gender', $customer->gender) == 'Female' ? 'selected' : '' }}>Female</option>
+                    <option value="Male" {{ old('gender', $customer->gender) == 'Male' ? 'selected' : '' }}>Male</option>
+                </select>
+                @error('gender')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+                <br>
                 <label class="form-label" for="phone">Phone Number</label>
-                <input class="form-control" name="phone" id="phone" value="{{ $customer->phone }}">
+                <input class="form-control" name="phone" id="phone" value="{{ $customer->phone }}" readonly>
                 @error('phone')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror

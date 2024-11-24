@@ -19,6 +19,7 @@ class CustomerFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'phone' => $this->faker->unique()->phoneNumber(),
+            'gender' => $this->faker->randomElement(['Male', 'Female']),
         ];
     }
 }

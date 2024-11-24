@@ -27,7 +27,8 @@ class CustomersImport implements ToCollection, WithStartRow
             try {
                 Customer::create([
                     'name'         => $row[0],
-                    'phone'          => $row[1]
+                    'gender'          => $row[1],
+                    'phone'          => $row[2]
                 ]);
 
                 DB::commit();
@@ -37,6 +38,7 @@ class CustomersImport implements ToCollection, WithStartRow
                 $this->fails[]  = [
                     $row[0],
                     $row[1],
+                    $row[2],
                     $e->getMessage()
                 ];
             }

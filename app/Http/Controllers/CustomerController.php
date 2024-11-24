@@ -61,7 +61,8 @@ class CustomerController extends Controller
                     'phone' => $request['phone']
                 ], 
                 [
-                    'name'          => $request['name']
+                    'name'          => $request['name'],
+                    'gender'          => $request['gender']
                 ]
             );
 
@@ -107,6 +108,7 @@ class CustomerController extends Controller
         try {
             $customer->update([
                 'name' => $request['name'],
+                'gender' => $request['gender'],
                 'phone' => $request['phone']
             ]);
 

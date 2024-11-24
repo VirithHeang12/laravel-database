@@ -15,6 +15,10 @@
                         <td>{{ $customer->name }}</td>
                     </tr>
                     <tr>
+                        <th>Customer Gender :</th>
+                        <td>{{ $customer->gender }}</td>
+                    </tr>
+                    <tr>
                         <th>Phone Number :</th>
                         <td>{{ $customer->phone }}</td>
                     </tr>

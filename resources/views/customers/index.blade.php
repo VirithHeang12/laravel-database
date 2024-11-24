@@ -35,6 +35,7 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
+                        <th scope="col">Gender</th>
                         <th scope="col">Phone Number</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -44,6 +45,7 @@
                         <tr>
                             <th scope="row">{{ $customer->id }}</th>
                             <td>{{ $customer->name }}</td>
+                            <td>{{ $customer->gender }}</td>
                             <td>{{ $customer->phone }}</td>
                             <td>
                                 <div class="d-flex gap-4">

@@ -24,7 +24,8 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name'           => ['required', 'string', $customer->id],
-            'phone'          => ['required', 'string', 'unique:customers', 'min:9', 'max:15'],
+            'gender'         => ['required', 'string', $customer->gender],
+            'phone'          => ['required', 'string', $customer->id, 'min:9', 'max:15'],
         ];
     }
 }

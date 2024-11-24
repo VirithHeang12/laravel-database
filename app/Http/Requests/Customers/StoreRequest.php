@@ -23,6 +23,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name'           => ['required', 'string'],
+            'gender'           => ['required', 'string'],
             'phone'          => ['required', 'string', 'unique:customers', 'min:9', 'max:15'],
         ];
     }
@@ -37,6 +38,7 @@ class StoreRequest extends FormRequest
             'phone.unique'          => 'Phone Number has already used.',
             'phone.min'             => 'The phone field must be at least 9 character.',
             'phone.max'             => 'The phone field may not be greater than 15 character.',
+            'gender.string'             => 'Please select gender.',
         ];
     }
 }

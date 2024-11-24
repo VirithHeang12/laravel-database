@@ -15,6 +15,7 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
+                        <th scope="col">Gender</th>
                         <th scope="col">Phone Number</th>
                     </tr>
                 </thead>
@@ -23,6 +24,7 @@
                         <tr>
                             <th scope="row">{{ $customer->id }}</th>
                             <td>{{ $customer->name }}</td>
+                            <td>{{ $customer->gender }}</td>
                             <td>{{ $customer->phone }}</td>
                             <td>
                                 <form action="{{ route('customers.restore', ['customer' => $customer->id]) }}" method="POST"
