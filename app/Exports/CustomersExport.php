@@ -5,9 +5,12 @@ namespace App\Exports;
 use App\Models\Customer;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 
-class CustomersExport implements FromCollection, WithHeadings
+class CustomersExport implements FromView, WithHeadings
 {
     private Collection $fails;
     private int $successesCount = 0;
@@ -71,6 +74,36 @@ class CustomersExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return $this->fails;
+        // return $this->fails;
+        return Customer::all();
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function view(): View
+    {
+        $customers = Customer::all();
+        
+        // Count total, female, and male customers
+        $totalCustomers = $customers->count();
+        $femaleCustomers = $customers->where('gender', 'Female')->count();
+        $maleCustomers = $customers->where('gender', 'Male')->count();
+
+        return view('customers.export', [
+            'customers' => $customers,
+            'totalCustomers' => $totalCustomers,
+            'femaleCustomers' => $femaleCustomers,
+            'maleCustomers' => $maleCustomers,
+        ]);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function startCell(): string
+    {
+        return 'B2';
     }
 }

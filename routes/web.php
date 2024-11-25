@@ -37,6 +37,8 @@ Route::resource('suppliers', SupplierController::class);
 
 Route::get('customers/import', [CustomerController::class, 'createImport'])->name('customers.createImport');
 Route::post('customers/import', [CustomerController::class, 'saveImport'])->name('customers.saveImport');
+Route::get('customers/export', [CustomerController::class, 'export'])->name('customers.export');
+Route::get('customers/export-view', [CustomerController::class, 'exportView'])->name('customers.exportView');
 Route::put('customers/{customer}/restore', [CustomerController::class, 'restoreCustomer'])->name('customers.restore');
 Route::put('/customers/restore-all', [CustomerController::class, 'restoreAllCustomer'])->name('customers.restoreAll');
 Route::get('customers/deleted', [CustomerController::class, 'deletedCustomers'])->name('customers.deleted');

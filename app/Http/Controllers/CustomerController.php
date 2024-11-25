@@ -201,19 +201,38 @@ class CustomerController extends Controller
         Excel::import($import, $request->file('file'));
 
         $sucesses       = $import->getSucesses();
-        $fails          = $import->getFails();
+        // $fails          = $import->getFails();
 
-        if (count($fails) > 0) {
-            $export = new CustomersExport;
-            $export->setFails(collect($fails));
-            $export->setSuccessesCount(count($sucesses));
-            $export->setFailsCount(count($fails));
+        // if (count($fails) > 0) {
+        //     $export = new CustomersExport;
+        //     $export->setFails(collect($fails));
+        //     $export->setSuccessesCount(count($sucesses));
+        //     $export->setFailsCount(count($fails));
 
-            return Excel::download($export, 'results.xlsx');
-        }
+        //     return Excel::download($export, 'results.xlsx');
+        // }
 
         return redirect()
             ->route('customers.index')
             ->with('success', 'Imported ' . count($sucesses) . ' customers successfully');
+    }
+    /**
+     * Export products to Excel file.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export()
+    {
+        return Excel::download(new CustomersExport, 'customers.xlsx');
+    }
+
+     /**
+     * Export products using FromView.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function exportView(): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        return Excel::download(new CustomersExport, 'customers.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }
