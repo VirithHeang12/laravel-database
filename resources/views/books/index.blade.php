@@ -15,10 +15,7 @@ Books
         @endif
     <h2 class="text-center fw-bold">Books</h2>
     <div class="d-flex align-items-center justify-content-between">
-            <!-- <form method="GET" action="{{ route('books.index') }}" class="d-flex">
-                <input type="text" class="form-control me-2" name="title" placeholder="Book Title" value="{{ request('name') }}">
-                <button type="submit" class="btn btn-dark">Search</button>
-            </form> -->
+            
             <form class="row g-3 justify-content-end" action="{{route('books.index')}}" method="GET">
                         <div class="col-auto">
                             <input class="form-control" type="text" name="title" id="titlte" value="{{ request('title') }}" placeholder="Book Titlte">
@@ -29,7 +26,10 @@ Books
                     </form>
             <div>
                 <a href="{{ route('books.create') }}" class="btn btn-dark">Create Book</a>
+                <a href="{{ route('books.createImport') }}" class="btn btn-dark">Import Book</a>
                 <a href="{{ route('books.deleted') }}" class="btn btn-dark">Show Deleted Book</a>
+                <a href="{{ route('books.export') }}" class="btn btn-dark">Export Book</a>
+                <a href="{{ route('books.exportView') }}" class="btn btn-dark">Export View Book</a>
             </div>
            
         </div>
