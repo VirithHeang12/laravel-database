@@ -1,21 +1,40 @@
-<table style="border: 2px solid #000; width: 100%; margin-top: 20px; background-color: #f9f9f9;">
-    <thead style="background-color: #4CAF50; color: white;">
+{{-- <table >
+    <thead>
         <tr>
-            <th>Genre</th>
-            <th>Books</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($genreCategories as $genre => $data)
-            <tr style="text-align: center;">
-                <td style="padding: 10px; border: 1px solid #ddd;">{{ $genre }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">
-                    <ul>
-                        @foreach ($data['books'] as $book)
-                            <li>{{ $book->title }}</li>
-                        @endforeach
-                    </ul>
-                </td>
+        @foreach ($suppliers as $supplier)
+            <tr>
+                <td>{{ $supplier->id }}</td>
+                <td>{{ $supplier->name }}</td>
+                <td>{{ $supplier->email }}</td>
+                <td>{{ $supplier->phone }}</td>
+                <td>{{ $supplier->address }}</td>
+            </tr>
+        @endforeach
+    </tbody>
+</table> --}}
+<table>
+    <h3>Supplier Email Categories</h3>
+    <thead>
+        <tr>
+            <th style="background-color: #2c4d6c; color: white; font-weight: 500; font-size: 12px;" valign="center"
+                align="center" height="30px" width="150px">Category Email</th>
+            <th style="background-color: #2c4d6c; color: white; font-weight: 500; font-size: 12px;" valign="center"
+                align="center" height="30px">Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($emailCategories as $category => $count)
+            <tr>
+                <td height="25px" valign="center" align="center">{{ $category }}</td>
+                <td height="25px" valign="center" align="center">{{ $count }}</td>
             </tr>
         @endforeach
     </tbody>
