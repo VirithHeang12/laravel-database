@@ -9,9 +9,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CarController;
+use Inertia\Inertia;
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Index', [
+        'title' => 'Dashboard'
+    ]);
 })->name('home');
 
 
